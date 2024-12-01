@@ -1,11 +1,12 @@
+import { Link } from 'react-router-dom';
 import PlaceCard from '../../components/place-card/place-card';
-import { TPlaceCard } from '../../types/place-card';
-import { PageType } from '../../utils/consts';
+import { City, MarkType, PageType } from '../../utils/consts';
 import { getPlaceCardStyles } from '../../utils/helpers';
+import { TPlaceCard } from '../../types/place-card';
+import { TTypeAs } from '../../types/helpers';
 
-type TCities = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf';
 type TFavoritesListProps = {
-  places: Partial<Record<TCities, TPlaceCard[]>>;
+  places: Partial<Record<TTypeAs<typeof City>, TPlaceCard[]>>;
 }
 
 export default function FavoritesList({ places }: TFavoritesListProps): JSX.Element {
@@ -19,9 +20,9 @@ export default function FavoritesList({ places }: TFavoritesListProps): JSX.Elem
             <li className="favorites__locations-items" key={city}>
               <div className="favorites__locations locations locations--current">
                 <div className="locations__item">
-                  <a className="locations__item-link" href="#">
+                  <Link className="locations__item-link" to="#">
                     <span>{city}</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -31,6 +32,7 @@ export default function FavoritesList({ places }: TFavoritesListProps): JSX.Elem
                     <PlaceCard
                       key={place.title}
                       place={place}
+                      markType={MarkType.Small}
                       {...getPlaceCardStyles(PageType.Favorites)}
                     />
                   ))

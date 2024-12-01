@@ -1,42 +1,83 @@
-const Setting = {
+export const City = {
+  Paris: 'Paris',
+  Cologne: 'Cologne',
+  Brussels: 'Brussels',
+  Amsterdam: 'Amsterdam',
+  Hamburg: 'Hamburg',
+  Dusseldorf: 'Dusseldorf',
+} as const;
+
+export const Setting = {
   RatingCoef: 20,
 } as const;
 
-const PageType = {
-  Main: 'Main',
-  Offer: 'Offer',
-  Favorites: 'Favorites',
+export const PageType = {
+  Main: 'main',
+  Offer: 'offer',
+  Favorites: 'favorites',
 } as const;
 
-const CardCount = {
+export const LogoType = {
+  Header: 'header',
+  Footer: 'footer',
+} as const;
+
+export const MarkType = {
+  Small: 'small',
+  Medium: 'medium',
+} as const;
+
+export const MapType = {
+  Main: 'cities',
+  Offer: 'offer',
+} as const;
+
+export const CardCount = {
   Min: 0,
   Max: 3,
 } as const;
 
-const CITIES = [
-  'Paris',
-  'Cologne',
-  'Brussels',
-  'Amsterdam',
-  'Hamburg',
-  'Dusseldorf',
-];
+export const AppRoute = {
+  Main: '/',
+  Login: '/login',
+  Favorites: '/favorites',
+  Offer: '/offer',
+  ID: '/:id',
+  NotFound: '*'
+} as const;
 
-const SORT_OPTIONS = [
+export const AuthStatus = {
+  Auth: 'AUTH',
+  NoAuth: 'NO_AUTH',
+  Unknown: 'UNKNOWN',
+} as const;
+
+export const SORT_OPTIONS = [
   'Popular',
   'Price: low to high',
   'Price: high to low',
-  'Top rated first'
+  'Top rated first',
 ];
 
-const CARD_STYLES = {
-  cardClassName: ['cities__card', 'favorites__card', 'near-places__card'],
-  imageClassName: ['cities__image-wrapper', 'favorites__image-wrapper', 'near-places__image-wrapper'],
-  imageWidth: [260, 150, 260],
-  imageHeight: [200, 110, 200]
+export const CARD_STYLES = {
+  className: ['cities', 'favorites', 'near-places'],
+  width: [260, 150, 260],
+  height: [200, 110, 200],
 };
 
-const RATINGS = [
+export const LOGO_STYLES = {
+  className: ['header', 'footer'],
+  width: [81, 64],
+  height: [41, 33],
+};
+
+export const MARK_STYLES = {
+  className: ['place-card', 'offer'],
+  width: [18, 31],
+  height: [19, 33],
+};
+
+export const RATINGS = [
   {
     value: 5,
     title: 'perfect',
@@ -63,5 +104,3 @@ const RATINGS = [
     checked: false
   }
 ];
-
-export { Setting, PageType, CardCount, CITIES, SORT_OPTIONS, CARD_STYLES, RATINGS };

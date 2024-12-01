@@ -1,13 +1,17 @@
+import Logo from '../logo/logo';
+import { getLogoStyles } from '../../utils/helpers';
+import { LogoType } from '../../utils/consts';
+import { TTypeAs } from '../../types/helpers';
+
 type TFooterProps = {
   isContainer: boolean;
+  logoType: TTypeAs<typeof LogoType>;
 }
 
-export default function Footer({ isContainer }: TFooterProps): JSX.Element {
+export default function Footer({ isContainer, logoType }: TFooterProps): JSX.Element {
   return (
     <footer className={`footer ${isContainer ? 'container' : ''}`}>
-      <a className="footer__logo-link" href="main.html">
-        <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-      </a>
+      <Logo {...getLogoStyles(logoType)}/>
     </footer>
   );
 }

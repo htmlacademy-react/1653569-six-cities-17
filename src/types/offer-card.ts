@@ -1,4 +1,4 @@
-import { User } from './user';
+import { TUser } from './user';
 
 export type TLocation = {
   latitude: number;
@@ -24,7 +24,7 @@ export type TOfferCard = {
   description: string;
   bedrooms: number;
   goods: string[];
-  host: User;
+  host: TUser;
   images: string[];
   maxAdults: number;
 };

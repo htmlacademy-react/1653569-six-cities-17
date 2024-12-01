@@ -1,8 +1,8 @@
 import { convertRating, convertDate } from '../../utils/helpers';
-import { Comment } from '../../types/comment';
+import { TComment } from '../../types/comment';
 
 type TOfferReviewsListProps = {
-  comments: Comment[];
+  comments: TComment[];
 }
 
 export default function OfferReviewsList({ comments }: TOfferReviewsListProps): JSX.Element {

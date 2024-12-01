@@ -1,4 +1,7 @@
-import { capitalizedFirstChar, convertRating } from '../../utils/helpers';
+import Bookmark from '../bookmark/bookmark';
+import PremiumMark from '../premium-mark/premium-mark';
+import { MarkType } from '../../utils/consts';
+import { capitalizedFirstChar, convertRating, getMarkStyles } from '../../utils/helpers';
 import { TOfferCard } from '../../types/offer-card';
 
 type TOfferDescription = {
@@ -11,23 +14,17 @@ export default function OfferDescription({ offer }: TOfferDescription): JSX.Elem
 
   return (
     <>
-      {
-        isPremium &&
-          <div className="offer__mark">
-            <span>Premium</span>
-          </div>
-      }
+      {isPremium && <PremiumMark {...getMarkStyles(MarkType.Medium)} />}
 
       <div className="offer__name-wrapper">
         <h1 className="offer__name">
           {title}
         </h1>
-        <button className="offer__bookmark-button button" type="button">
-          <svg className="offer__bookmark-icon" width="31" height="33">
-            <use xlinkHref="#icon-bookmark"></use>
-          </svg>
-          <span className="visually-hidden">{`${isFavorite ? 'In' : 'To'} bookmarks`}</span>
-        </button>
+
+        <Bookmark
+          isFavorite={isFavorite}
+          {...getMarkStyles(MarkType.Medium)}
+        />
       </div>
 
       <div className="offer__rating rating">

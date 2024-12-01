@@ -1,36 +1,36 @@
+import { Link } from 'react-router-dom';
+import Bookmark from '../bookmark/bookmark';
+import PremiumMark from '../premium-mark/premium-mark';
+import { capitalizedFirstChar, convertRating, getMarkStyles } from '../../utils/helpers';
+import { AppRoute, MarkType } from '../../utils/consts';
 import { TPlaceCard } from '../../types/place-card';
-import { capitalizedFirstChar, convertRating } from '../../utils/helpers';
+import { TTypeAs } from '../../types/helpers';
 
 type TPlaceCardProps = {
   place: TPlaceCard;
-  cardClassName?: string;
-  imageClassName?: string;
-  imageWidth?: number;
-  imageHeight?: number;
+  markType: TTypeAs<typeof MarkType>;
+  className?: string;
+  width?: number;
+  height?: number;
 }
 
-export default function PlaceCard({ place, cardClassName, imageClassName, imageWidth, imageHeight }: TPlaceCardProps): JSX.Element {
-  const { title, type, price, isPremium, isFavorite, rating, previewImage } = place;
+export default function PlaceCard({ place, markType, className, width, height }: TPlaceCardProps): JSX.Element {
+  const { id, title, type, price, isPremium, isFavorite, rating, previewImage } = place;
 
   return (
-    <article className={`${cardClassName} place-card`}>
-      {
-        isPremium &&
-          <div className="place-card__mark">
-            <span>Premium</span>
-          </div>
-      }
+    <article className={`${className}__card place-card`}>
+      {isPremium && <PremiumMark {...getMarkStyles(markType)} />}
 
-      <div className={`${imageClassName} place-card__image-wrapper`}>
-        <a href="#">
+      <div className={`${className}__image-wrapper place-card__image-wrapper`}>
+        <Link to={`${AppRoute.Offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
-            width={imageWidth}
-            height={imageHeight}
+            width={width}
+            height={height}
             alt={`Place: ${title}`}
           />
-        </a>
+        </Link>
       </div>
 
       <div className="place-card__info">
@@ -40,15 +40,10 @@ export default function PlaceCard({ place, cardClassName, imageClassName, imageW
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          <button
-            className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
-            type="button"
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">{`${isFavorite ? 'In' : 'To'} bookmarks`}</span>
-          </button>
+          <Bookmark
+            isFavorite={isFavorite}
+            {...getMarkStyles(markType)}
+          />
         </div>
 
         <div className="place-card__rating rating">

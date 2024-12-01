@@ -142,7 +142,7 @@ export const offerCards = [
       'avatarUrl': 'https://16.design.htmlacademy.pro/static/host/avatar-angelina.jpg'
     },
     'isPremium': true,
-    'isFavorite': false,
+    'isFavorite': true,
     'rating': 1.9,
     'bedrooms': 2,
     'maxAdults': 8

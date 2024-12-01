@@ -1,5 +1,5 @@
 import PlaceCard from '../place-card/place-card';
-import { PageType } from '../../utils/consts';
+import { MarkType, PageType } from '../../utils/consts';
 import { CardCount } from '../../utils/consts';
 import { getPlaceCardStyles } from '../../utils/helpers';
 import { TPlaceCard } from '../../types/place-card';
@@ -18,6 +18,7 @@ export default function OfferNearPlacesList({ placeCards }: TOfferNearPlacesList
             <PlaceCard
               key={place.id}
               place={place}
+              markType={MarkType.Small}
               {...getPlaceCardStyles(PageType.Offer)}
             />
           ))
