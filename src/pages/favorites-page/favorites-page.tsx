@@ -1,10 +1,10 @@
 import { Helmet } from 'react-helmet-async';
+import cx from 'classix';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import { AuthStatus, LogoType } from '../../utils/consts';
-import { placeCards } from '../../mocks/place-cards';
 import { TTypeAs } from '../../types/helpers';
 import { TPlaceCard } from '../../types/place-card';
 
@@ -14,11 +14,10 @@ type TFavoritesPageProps = {
 }
 
 export default function FavoritesPage({ placeFavorites, authStatus }: TFavoritesPageProps): JSX.Element {
-  const filteredPlaces = placeCards.filter((item) => item.isFavorite);
-  const isPlaces = !!filteredPlaces.length;
+  const isPlaces = !!placeFavorites.length;
 
   return (
-    <div className={`page ${!isPlaces ? 'page--favorites-empty' : ''}`}>
+    <div className={cx('page', !isPlaces && 'page--favorites-empty')}>
       <Helmet>
         <title>6 cities - Favorites</title>
       </Helmet>
@@ -29,13 +28,13 @@ export default function FavoritesPage({ placeFavorites, authStatus }: TFavorites
         logoType={LogoType.Header}
       />
 
-      <main className={`page__main page__main--favorites ${!isPlaces ? 'page__main--favorites-empty' : ''}`}>
+      <main className={cx('page__main', 'page__main--favorites', !isPlaces && 'page__main--favorites-empty')}>
         <div className="page__favorites-container container">
           {
             isPlaces
               ?
               <FavoritesList
-                places={Object.groupBy(filteredPlaces, ({city: {name}}) => name)}
+                places={Object.groupBy(placeFavorites, ({city: {name}}) => name)}
               />
               : <FavoritesEmpty />
           }

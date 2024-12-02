@@ -54,7 +54,7 @@ export default function PlaceCard({ place, markType, className, width, height }:
         </div>
 
         <h2 className="place-card__name">
-          <a href="#">{capitalizedFirstChar(title)}</a>
+          <Link to={`${AppRoute.Offer}/${id}`}>{capitalizedFirstChar(title)}</Link>
         </h2>
         <p className="place-card__type">{capitalizedFirstChar(type)}</p>
       </div>

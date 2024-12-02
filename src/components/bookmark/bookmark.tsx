@@ -1,3 +1,5 @@
+import cx from 'classix';
+
 type TBookmarkProps = {
   className?: string;
   width?: number;
@@ -8,7 +10,7 @@ type TBookmarkProps = {
 export default function Bookmark({ className, width, height, isFavorite = false }: TBookmarkProps): JSX.Element {
   return (
     <button
-      className={`${className}__bookmark-button ${isFavorite ? `${className}__bookmark-button--active` : ''} button`}
+      className={cx(`${className}__bookmark-button`, isFavorite && `${className}__bookmark-button--active`, 'button')}
       type="button"
     >
       <svg

@@ -1,3 +1,4 @@
+import cx from 'classix';
 import { Link } from 'react-router-dom';
 import { AppRoute, PageType } from '../../utils/consts';
 import { TTypeAs } from '../../types/helpers';
@@ -11,7 +12,7 @@ type TLogoProps = {
 
 export default function Logo({ pageType, className, width, height }: TLogoProps): JSX.Element {
   return (
-    <Link className={`${className}__logo-link ${pageType === PageType.Main ? `${className}__logo-link--active` : ''}`} to={AppRoute.Main}>
+    <Link className={cx(`${className}__logo-link`, pageType === PageType.Main && `${className}__logo-link--active`)} to={AppRoute.Main}>
       <img
         className={`${className}__logo`}
         width={width}

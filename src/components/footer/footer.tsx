@@ -1,3 +1,4 @@
+import cx from 'classix';
 import Logo from '../logo/logo';
 import { getLogoStyles } from '../../utils/helpers';
 import { LogoType } from '../../utils/consts';
@@ -10,7 +11,7 @@ type TFooterProps = {
 
 export default function Footer({ isContainer, logoType }: TFooterProps): JSX.Element {
   return (
-    <footer className={`footer ${isContainer ? 'container' : ''}`}>
+    <footer className={cx('footer', isContainer && 'container')}>
       <Logo {...getLogoStyles(logoType)}/>
     </footer>
   );

@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import cx from 'classix';
 import Header from '../../components/header/header';
 import PlacesTabs from '../../components/places-tabs/places-tabs';
 import PlacesContainer from '../../components/places-container/places-container';
@@ -21,7 +22,7 @@ export default function MainPage({ placeCards, placeFavorites, authStatus }: TMa
   const isPlaces = !!placeCards.length;
 
   return (
-    <div className={`page page--gray page--main ${!isPlaces ? 'page__main--index-empty' : ''}`}>
+    <div className={cx('page', 'page--gray page--main', !isPlaces && 'page__main--index-empty')}>
       <Helmet>
         <title>6 cities</title>
       </Helmet>
@@ -38,7 +39,7 @@ export default function MainPage({ placeCards, placeFavorites, authStatus }: TMa
         <PlacesTabs activeTab={activeTab}/>
 
         <div className="cities">
-          <div className={`cities__places-container container ${!isPlaces ? 'cities__places-container--empty' : ''}`}>
+          <div className={cx('cities__places-container', 'container', !isPlaces && 'cities__places-container--empty')}>
             {
               isPlaces
                 ?

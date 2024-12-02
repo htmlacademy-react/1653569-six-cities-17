@@ -1,3 +1,4 @@
+import cx from 'classix';
 import { Link } from 'react-router-dom';
 import { City } from '../../utils/consts';
 
@@ -13,7 +14,7 @@ export default function PlacesTabs({ activeTab }: TPlacesTabsProps): JSX.Element
           {
             Object.values(City).map((city) => (
               <li className="locations__item" key={city}>
-                <Link className={`locations__item-link tabs__item ${city === activeTab ? 'tabs__item--active' : ''}`} to="#">
+                <Link className={cx('locations__item-link', 'tabs__item', city === activeTab && 'tabs__item--active')} to="#">
                   <span>{city}</span>
                 </Link>
               </li>
