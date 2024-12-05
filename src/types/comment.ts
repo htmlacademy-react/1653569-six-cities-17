@@ -1,9 +1,9 @@
-import { User } from './user';
+import { TUser } from './user';
 
-export type Comment = {
+export type TComment = {
   id: string;
   date: string;
-  user: User;
+  user: TUser;
   comment: string;
   rating: number;
 };

@@ -1,18 +1,10 @@
-import { PageType } from '../../utils/consts';
+import { MapType } from '../../utils/consts';
+import { TTypeAs } from '../../types/helpers';
 
 type TMapProps = {
-  pageType: string;
+  mapType: TTypeAs<typeof MapType>;
 }
 
-export default function Map({ pageType }: TMapProps): JSX.Element {
-  const getMapClassName = () => {
-    switch (pageType) {
-      case PageType.Main:
-        return 'cities__map';
-      case PageType.Offer:
-        return 'offer__map';
-    }
-  };
-
-  return <section className={`${getMapClassName()} map`}></section>;
+export default function Map({ mapType }: TMapProps): JSX.Element {
+  return (<section className={`${mapType}__map map`}></section>);
 }

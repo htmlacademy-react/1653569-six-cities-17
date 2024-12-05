@@ -20,7 +20,13 @@ export default function OfferReviewsForm(): JSX.Element {
         }
       </div>
 
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      <textarea
+        className="reviews__textarea form__textarea"
+        id="review"
+        name="review"
+        placeholder="Tell how was your stay, what you like and what can be improved"
+      >
+      </textarea>
 
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

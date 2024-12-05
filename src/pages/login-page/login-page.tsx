@@ -1,9 +1,24 @@
+import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header';
+import { AuthStatus, LogoType } from '../../utils/consts';
+import { TTypeAs } from '../../types/helpers';
 
-export default function LoginPage(): JSX.Element {
+type TLoginPageProps = {
+  authStatus: TTypeAs<typeof AuthStatus>;
+}
+
+export default function LoginPage({ authStatus }: TLoginPageProps): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <Header isAuth={false} />
+      <Helmet>
+        <title>6 cities - Login</title>
+      </Helmet>
+
+      <Header
+        logoType={LogoType.Header}
+        authStatus={authStatus}
+        isAuth={false}
+      />
 
       <main className="page__main page__main--login">
         <div className="page__login-container container">
