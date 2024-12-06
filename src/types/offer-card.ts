@@ -1,3 +1,4 @@
+import { TPlaceCard } from './place-card';
 import { TUser } from './user';
 
 export type TLocation = {
@@ -11,16 +12,7 @@ export type TCity = {
   location: TLocation;
 };
 
-export type TOfferCard = {
-  id: string;
-  title: string;
-  type: string;
-  price: number;
-  city: TCity;
-  location: TLocation;
-  isFavorite: boolean;
-  isPremium: boolean;
-  rating: number;
+export type TOfferCard = Omit<TPlaceCard, 'previewImage'> & {
   description: string;
   bedrooms: number;
   goods: string[];

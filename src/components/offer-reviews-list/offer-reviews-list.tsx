@@ -1,4 +1,6 @@
-import { convertRating, convertDate } from '../../utils/helpers';
+import Rating from '../rating/rating';
+import { RatingType } from '../../utils/consts';
+import { convertDate } from '../../utils/helpers';
 import { TComment } from '../../types/comment';
 
 type TOfferReviewsListProps = {
@@ -21,12 +23,10 @@ export default function OfferReviewsList({ comments }: TOfferReviewsListProps): 
             </div>
 
             <div className="reviews__info">
-              <div className="reviews__rating rating">
-                <div className="reviews__stars rating__stars">
-                  <span style={{ width: convertRating(rating) }}></span>
-                  <span className="visually-hidden">Rating</span>
-                </div>
-              </div>
+              <Rating
+                type={RatingType.Reviews}
+                rating={rating}
+              />
 
               <p className="reviews__text">
                 {comment}

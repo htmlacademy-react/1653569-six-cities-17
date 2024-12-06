@@ -61,6 +61,9 @@ export default function App({ placeCards }: TAppProps): JSX.Element {
               <OfferPage
                 placeFavorites={placeFavorites}
                 authStatus={authStatus}
+                onComment={() => {
+                  throw new Error('Function \'onComment\' isn\'t implemented.');
+                }}
               />
             }
           />
