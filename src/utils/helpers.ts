@@ -1,9 +1,9 @@
-import { PageType, LogoType, Setting, CARD_STYLES, LOGO_STYLES, MARK_STYLES, MarkType } from './consts';
+import { PageType, LogoType, Rating, CARD_STYLES, LOGO_STYLES, MARK_STYLES, MarkType } from './consts';
 import { TTypeAs } from '../types/helpers';
 
 export const capitalizedFirstChar = (element: string) => element.replace(element[0], element[0].toUpperCase());
 
-export const convertRating = (rating: number) => `${Math.round(rating) * Setting.RatingCoef}%`;
+export const convertRating = (rating: number) => `${Math.round(rating) * Rating.multiplier}%`;
 
 export const convertDate = (date: string) => new Date(date).toLocaleDateString('en-US', { month: 'long', year: 'numeric'});
 

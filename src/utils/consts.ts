@@ -7,10 +7,6 @@ export const City = {
   Dusseldorf: 'Dusseldorf',
 } as const;
 
-export const Setting = {
-  RatingCoef: 20,
-} as const;
-
 export const PageType = {
   Main: 'main',
   Offer: 'offer',
@@ -32,6 +28,12 @@ export const MapType = {
   Offer: 'offer',
 } as const;
 
+export const RatingType = {
+  PlaceCard: 'place-card',
+  Reviews: 'reviews',
+  Offer: 'offer'
+} as const;
+
 export const CardCount = {
   Min: 0,
   Max: 3,
@@ -50,6 +52,17 @@ export const AuthStatus = {
   Auth: 'AUTH',
   NoAuth: 'NO_AUTH',
   Unknown: 'UNKNOWN',
+} as const;
+
+export const Comment = {
+  MinLength: 50,
+  MaxLength: 300,
+  InitState: '',
+} as const;
+
+export const Rating = {
+  initState: 0,
+  multiplier: 20,
 } as const;
 
 export const SORT_OPTIONS = [
@@ -81,26 +94,21 @@ export const RATINGS = [
   {
     value: 5,
     title: 'perfect',
-    checked: false
   },
   {
     value: 4,
     title: 'good',
-    checked: false
   },
   {
     value: 3,
     title: 'not bad',
-    checked: false
   },
   {
     value: 2,
     title: 'badly',
-    checked: false
   },
   {
     value: 1,
     title: 'terribly',
-    checked: false
   }
 ];

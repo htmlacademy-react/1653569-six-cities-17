@@ -5,9 +5,10 @@ import { TPlaceCard} from '../../types/place-card';
 
 type TPlacesListProp = {
   placeCards: TPlaceCard[];
+  onActivePlaceCardId: (id: string | null) => void;
 }
 
-export default function PlacesList({ placeCards }: TPlacesListProp): JSX.Element {
+export default function PlacesList({ placeCards, onActivePlaceCardId }: TPlacesListProp): JSX.Element {
   return (
     <div className="cities__places-list places__list tabs__content">
       {
@@ -16,6 +17,7 @@ export default function PlacesList({ placeCards }: TPlacesListProp): JSX.Element
             key={place.id}
             place={place}
             markType={MarkType.Small}
+            onActivePlaceCardId={onActivePlaceCardId}
             {...getPlaceCardStyles(PageType.Main)}
           />
         ))

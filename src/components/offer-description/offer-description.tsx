@@ -1,7 +1,8 @@
 import Bookmark from '../bookmark/bookmark';
 import PremiumMark from '../premium-mark/premium-mark';
-import { MarkType } from '../../utils/consts';
-import { capitalizedFirstChar, convertRating, getMarkStyles } from '../../utils/helpers';
+import Rating from '../rating/rating';
+import { MarkType, RatingType } from '../../utils/consts';
+import { capitalizedFirstChar, getMarkStyles } from '../../utils/helpers';
 import { TOfferCard } from '../../types/offer-card';
 
 type TOfferDescription = {
@@ -27,13 +28,10 @@ export default function OfferDescription({ offer }: TOfferDescription): JSX.Elem
         />
       </div>
 
-      <div className="offer__rating rating">
-        <div className="offer__stars rating__stars">
-          <span style={{width: convertRating(rating)}}></span>
-          <span className="visually-hidden">Rating</span>
-        </div>
-        <span className="offer__rating-value rating__value">{rating}</span>
-      </div>
+      <Rating
+        type={RatingType.Offer}
+        rating={rating}
+      />
 
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">

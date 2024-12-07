@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import cx from 'classix';
 import Header from '../../components/header/header';
@@ -19,7 +20,12 @@ type TMainPageProps = {
 const activeTab = City.Paris;
 
 export default function MainPage({ placeCards, placeFavorites, authStatus }: TMainPageProps): JSX.Element {
+  const [activePlaceCardId, setActivePlaceCardId] = useState<string | null>(null);
   const isPlaces = !!placeCards.length;
+
+  const handleActivePlaceCardId = (placeCardId: string | null) => {
+    setActivePlaceCardId(placeCardId);
+  };
 
   return (
     <div className={cx('page', 'page--gray page--main', !isPlaces && 'page__main--index-empty')}>
@@ -46,12 +52,13 @@ export default function MainPage({ placeCards, placeFavorites, authStatus }: TMa
                 <PlacesContainer
                   placeCards={placeCards.filter((item) => item.city.name === activeTab)}
                   activeTab={activeTab}
+                  onActivePlaceCardId={handleActivePlaceCardId}
                 />
                 : <PlacesEmpty />
             }
 
             <div className="cities__right-section">
-              {isPlaces && <Map mapType={MapType.Main} />}
+              {isPlaces && <Map mapType={MapType.Main} activePlaceCardId={activePlaceCardId}/>}
             </div>
           </div>
         </div>
