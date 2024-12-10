@@ -3,7 +3,7 @@ import { Comment, Rating, RATINGS } from '../../utils/consts';
 import { TCommentSend } from '../../types/comment';
 
 const initFormData: TCommentSend = {
-  rating: Rating.initState,
+  rating: Rating.InitState,
   comment: Comment.InitState,
 };
 
@@ -13,7 +13,7 @@ type TOfferReviewForm = {
 
 export default function OfferReviewsForm({ onComment }: TOfferReviewForm): JSX.Element {
   const [formData, setFormData] = useState(initFormData);
-  const isDisabledSubmit = formData.rating > Rating.initState
+  const isDisabledSubmit = formData.rating > Rating.InitState
     && formData.comment.length >= Comment.MinLength
     && formData.comment.length < Comment.MaxLength;
 

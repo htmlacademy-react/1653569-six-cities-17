@@ -5,7 +5,7 @@ import Map from '../../components/map/map';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
 import OfferDescription from '../../components/offer-description/offer-description';
 import OfferReviews from '../../components/offer-reviews/offer-reviews';
-import OfferNearPlacesList from '../../components/offer-near-places/offer-near-places-list';
+import OfferNearPlacesList from '../../components/offer-near-places-list/offer-near-places-list';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { offerCards } from '../../mocks/offer-cards';
 import { placeCards } from '../../mocks/place-cards';
@@ -53,7 +53,10 @@ export default function OfferPage({ placeFavorites, authStatus, onComment }: TOf
               </div>
             </div>
 
-            <Map mapType={MapType.Offer} />
+            <Map
+              cityPlaceCards={placeFavorites}
+              mapType={MapType.Offer}
+            />
           </section>
 
           <div className="container">

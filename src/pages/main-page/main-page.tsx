@@ -17,10 +17,11 @@ type TMainPageProps = {
   authStatus: TTypeAs<typeof AuthStatus>;
 }
 
-const activeTab = City.Paris;
+const activeTab = City.Amsterdam;
 
 export default function MainPage({ placeCards, placeFavorites, authStatus }: TMainPageProps): JSX.Element {
   const [activePlaceCardId, setActivePlaceCardId] = useState<string | null>(null);
+  const cityPlaceCards = placeCards.filter((item) => item.city.name === activeTab);
   const isPlaces = !!placeCards.length;
 
   const handleActivePlaceCardId = (placeCardId: string | null) => {
@@ -50,7 +51,7 @@ export default function MainPage({ placeCards, placeFavorites, authStatus }: TMa
               isPlaces
                 ?
                 <PlacesContainer
-                  placeCards={placeCards.filter((item) => item.city.name === activeTab)}
+                  cityPlaceCards={cityPlaceCards}
                   activeTab={activeTab}
                   onActivePlaceCardId={handleActivePlaceCardId}
                 />
@@ -58,7 +59,12 @@ export default function MainPage({ placeCards, placeFavorites, authStatus }: TMa
             }
 
             <div className="cities__right-section">
-              {isPlaces && <Map mapType={MapType.Main} activePlaceCardId={activePlaceCardId}/>}
+              {isPlaces &&
+                <Map
+                  cityPlaceCards={cityPlaceCards}
+                  activePlaceCardId={activePlaceCardId}
+                  mapType={MapType.Main}
+                />}
             </div>
           </div>
         </div>

@@ -1,9 +1,10 @@
-import { PageType, LogoType, Rating, CARD_STYLES, LOGO_STYLES, MARK_STYLES, MarkType } from './consts';
+import { PageType, LogoType, Rating, CARD_STYLES, LOGO_STYLES, MARK_STYLES, MarkType, ICON_STYLES, UrlMarker } from './consts';
 import { TTypeAs } from '../types/helpers';
+import { IconOptions } from 'leaflet';
 
 export const capitalizedFirstChar = (element: string) => element.replace(element[0], element[0].toUpperCase());
 
-export const convertRating = (rating: number) => `${Math.round(rating) * Rating.multiplier}%`;
+export const convertRating = (rating: number) => `${Math.round(rating) * Rating.Multiplier}%`;
 
 export const convertDate = (date: string) => new Date(date).toLocaleDateString('en-US', { month: 'long', year: 'numeric'});
 
@@ -45,15 +46,21 @@ export const getLogoStyles = (logoType: TTypeAs<typeof LogoType>) => {
 export const getMarkStyles = (markType: TTypeAs<typeof MarkType>) => {
   const list: (string | number)[][] = [];
   Object.entries(MARK_STYLES).forEach(([key, value]) => {
-    const [main, offer] = value;
+    const [small, medium] = value;
     switch (markType) {
       case MarkType.Small:
-        list.push([key, main]);
+        list.push([key, small]);
         break;
       case MarkType.Medium:
-        list.push([key, offer]);
+        list.push([key, medium]);
         break;
     }
   });
   return Object.fromEntries(list);
+};
+
+export const getIconStyles = (iconType: TTypeAs<typeof UrlMarker>): IconOptions => {
+  const iconStyle = {iconUrl: iconType};
+  Object.assign(iconStyle, ICON_STYLES);
+  return iconStyle;
 };
