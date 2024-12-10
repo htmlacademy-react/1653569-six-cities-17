@@ -4,15 +4,15 @@ import { getPlaceCardStyles } from '../../utils/helpers';
 import { TPlaceCard} from '../../types/place-card';
 
 type TPlacesListProp = {
-  placeCards: TPlaceCard[];
+  cityPlaceCards: TPlaceCard[];
   onActivePlaceCardId: (id: string | null) => void;
 }
 
-export default function PlacesList({ placeCards, onActivePlaceCardId }: TPlacesListProp): JSX.Element {
+export default function PlacesList({ cityPlaceCards, onActivePlaceCardId }: TPlacesListProp): JSX.Element {
   return (
     <div className="cities__places-list places__list tabs__content">
       {
-        placeCards.map((place) => (
+        cityPlaceCards.map((place) => (
           <PlaceCard
             key={place.id}
             place={place}

@@ -61,8 +61,13 @@ export const Comment = {
 } as const;
 
 export const Rating = {
-  initState: 0,
-  multiplier: 20,
+  InitState: 0,
+  Multiplier: 20,
+} as const;
+
+export const UrlMarker = {
+  Default: '../img/pin.svg',
+  Current: '../img/pin-active.svg'
 } as const;
 
 export const SORT_OPTIONS = [
@@ -88,6 +93,11 @@ export const MARK_STYLES = {
   className: ['place-card', 'offer'],
   width: [18, 31],
   height: [19, 33],
+};
+
+export const ICON_STYLES = {
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
 };
 
 export const RATINGS = [
