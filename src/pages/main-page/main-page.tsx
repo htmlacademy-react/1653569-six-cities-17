@@ -12,17 +12,15 @@ import { TPlaceCard } from '../../types/place-card';
 import { TTypeAs } from '../../types/helpers';
 
 type TMainPageProps = {
-  placeCards: TPlaceCard[];
+  cityPlaceCards: TPlaceCard[];
   placeFavorites: TPlaceCard[];
   authStatus: TTypeAs<typeof AuthStatus>;
+  activeTab: TTypeAs<typeof City>;
 }
 
-const activeTab = City.Amsterdam;
-
-export default function MainPage({ placeCards, placeFavorites, authStatus }: TMainPageProps): JSX.Element {
+export default function MainPage({ cityPlaceCards, placeFavorites, authStatus, activeTab }: TMainPageProps): JSX.Element {
   const [activePlaceCardId, setActivePlaceCardId] = useState<string | null>(null);
-  const cityPlaceCards = placeCards.filter((item) => item.city.name === activeTab);
-  const isPlaces = !!placeCards.length;
+  const isPlaces = !!cityPlaceCards.length;
 
   const handleActivePlaceCardId = (placeCardId: string | null) => {
     setActivePlaceCardId(placeCardId);
@@ -62,8 +60,8 @@ export default function MainPage({ placeCards, placeFavorites, authStatus }: TMa
               {isPlaces &&
                 <Map
                   cityPlaceCards={cityPlaceCards}
-                  activePlaceCardId={activePlaceCardId}
                   mapType={MapType.Main}
+                  activePlaceCardId={activePlaceCardId}
                 />}
             </div>
           </div>

@@ -8,21 +8,22 @@ import OfferReviews from '../../components/offer-reviews/offer-reviews';
 import OfferNearPlacesList from '../../components/offer-near-places-list/offer-near-places-list';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { offerCards } from '../../mocks/offer-cards';
-import { placeCards } from '../../mocks/place-cards';
-import { AuthStatus, LogoType, MapType } from '../../utils/consts';
+import { AuthStatus, CardCount, LogoType, MapType } from '../../utils/consts';
 import { TTypeAs } from '../../types/helpers';
 import { TPlaceCard } from '../../types/place-card';
 import { TCommentSend } from '../../types/comment';
 
 type TOfferPageProps = {
+  cityPlaceCards: TPlaceCard[];
   placeFavorites: TPlaceCard[];
   authStatus: TTypeAs<typeof AuthStatus>;
   onComment: (comment: TCommentSend) => void;
 }
 
-export default function OfferPage({ placeFavorites, authStatus, onComment }: TOfferPageProps): JSX.Element {
+export default function OfferPage({ cityPlaceCards, placeFavorites, authStatus, onComment }: TOfferPageProps): JSX.Element {
   const params = useParams();
   const offer = offerCards.find((card) => card.id === params.id);
+  const offerNearPlaces = cityPlaceCards.filter((place) => place.id !== params.id).slice(CardCount.Min, CardCount.Max);
 
   return (
     offer
@@ -54,13 +55,14 @@ export default function OfferPage({ placeFavorites, authStatus, onComment }: TOf
             </div>
 
             <Map
-              cityPlaceCards={placeFavorites}
+              cityPlaceCards={offerNearPlaces}
+              currentOfferCard={offer}
               mapType={MapType.Offer}
             />
           </section>
 
           <div className="container">
-            <OfferNearPlacesList placeCards={placeCards} />
+            <OfferNearPlacesList offerNearPlaces={offerNearPlaces} />
           </div>
         </main>
       </div>
