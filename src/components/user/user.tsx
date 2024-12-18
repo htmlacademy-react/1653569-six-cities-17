@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 import { AppRoute, AuthStatus } from '../../utils/consts';
 import { TPlaceCard } from '../../types/place-card';
 

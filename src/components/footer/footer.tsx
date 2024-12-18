@@ -2,7 +2,7 @@ import cx from 'classix';
 import Logo from '../logo/logo';
 import { getLogoStyles } from '../../utils/helpers';
 import { LogoType } from '../../utils/consts';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type TFooterProps = {
   isContainer: boolean;

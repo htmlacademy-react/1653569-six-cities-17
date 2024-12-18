@@ -6,20 +6,21 @@ import PlacesTabs from '../../components/places-tabs/places-tabs';
 import PlacesContainer from '../../components/places-container/places-container';
 import PlacesEmpty from '../../components/places-empty/places-empty';
 import Map from '../../components/map/map';
-import { City, LogoType, MapType, PageType } from '../../utils/consts';
+import { useAppSelector } from '../../hooks';
+import { LogoType, MapType, PageType } from '../../utils/consts';
 import { AuthStatus } from '../../utils/consts';
 import { TPlaceCard } from '../../types/place-card';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type TMainPageProps = {
-  cityPlaceCards: TPlaceCard[];
   placeFavorites: TPlaceCard[];
   authStatus: TTypeAs<typeof AuthStatus>;
-  activeTab: TTypeAs<typeof City>;
 }
 
-export default function MainPage({ cityPlaceCards, placeFavorites, authStatus, activeTab }: TMainPageProps): JSX.Element {
+export default function MainPage({ placeFavorites, authStatus }: TMainPageProps): JSX.Element {
   const [activePlaceCardId, setActivePlaceCardId] = useState<string | null>(null);
+  const activeTab = useAppSelector((state) => state.activeCity);
+  const cityPlaceCards = useAppSelector((state) => state.placeCards).filter((place) => place.city.name === activeTab);
   const isPlaces = !!cityPlaceCards.length;
 
   const handleActivePlaceCardId = (placeCardId: string | null) => {

@@ -3,7 +3,7 @@ import Logo from '../logo/logo';
 import { AuthStatus, LogoType, PageType } from '../../utils/consts';
 import { getLogoStyles } from '../../utils/helpers';
 import { TPlaceCard } from '../../types/place-card';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type THeaderProps = {
   placeFavorites?: TPlaceCard[];
