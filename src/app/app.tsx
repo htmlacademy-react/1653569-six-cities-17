@@ -7,19 +7,17 @@ import LoginPage from '../pages/login-page/login-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../routes/private-route/private-route';
 import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
-import { AppRoute, AuthStatus, City } from '../utils/consts';
-import { TPlaceCard } from '../types/place-card';
-
-type TAppProps = {
-  placeCards: TPlaceCard[];
-}
+import { AppRoute, AuthStatus } from '../utils/consts';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { getPlaceCards } from '../store/action';
 
 const authStatus = AuthStatus.Auth;
-const activeTab = City.Amsterdam;
 
-export default function App({ placeCards }: TAppProps): JSX.Element {
+export default function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  dispatch(getPlaceCards());
+  const placeCards = useAppSelector((state) => state.placeCards);
   const placeFavorites = placeCards.filter((item) => item.isFavorite);
-  const cityPlaceCards = placeCards.filter((item) => item.city.name === activeTab);
 
   return (
     <HelmetProvider>
@@ -30,10 +28,8 @@ export default function App({ placeCards }: TAppProps): JSX.Element {
             path={AppRoute.Main}
             element={
               <MainPage
-                cityPlaceCards={cityPlaceCards}
                 placeFavorites={placeFavorites}
                 authStatus={authStatus}
-                activeTab={activeTab}
               />
             }
           />
@@ -62,7 +58,6 @@ export default function App({ placeCards }: TAppProps): JSX.Element {
             path={`${AppRoute.Offer}${AppRoute.ID}`}
             element={
               <OfferPage
-                cityPlaceCards={cityPlaceCards}
                 placeFavorites={placeFavorites}
                 authStatus={authStatus}
                 onComment={() => {

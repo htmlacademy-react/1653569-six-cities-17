@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../utils/consts';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type TPrivateRouteProps = {
   authStatus: TTypeAs<typeof AuthStatus>;

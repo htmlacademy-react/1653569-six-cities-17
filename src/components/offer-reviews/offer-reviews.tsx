@@ -1,7 +1,7 @@
 import OfferReviewsList from '../../components/offer-reviews-list/offer-reviews-list';
 import OfferReviewsForm from '../../components/offer-reviews-form/offer-reviews-form';
 import { comments } from '../../mocks/comments';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 import { AuthStatus } from '../../utils/consts';
 import { TCommentSend } from '../../types/comment';
 

@@ -5,7 +5,7 @@ import Rating from '../rating/rating';
 import { capitalizedFirstChar, getMarkStyles } from '../../utils/helpers';
 import { AppRoute, MarkType, RatingType } from '../../utils/consts';
 import { TPlaceCard } from '../../types/place-card';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type TPlaceCardProps = {
   place: TPlaceCard;

@@ -1,7 +1,7 @@
 
 import { convertRating } from '../../utils/helpers';
 import { RatingType } from '../../utils/consts';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type TRatingProps = {
   type: TTypeAs<typeof RatingType>;

@@ -1,5 +1,5 @@
 import { PageType, LogoType, Rating, CARD_STYLES, LOGO_STYLES, MARK_STYLES, MarkType, ICON_STYLES, UrlMarker } from './consts';
-import { TTypeAs } from '../types/helpers';
+import { TTypeAs } from '../types/helper';
 import { IconOptions } from 'leaflet';
 
 export const capitalizedFirstChar = (element: string) => element.replace(element[0], element[0].toUpperCase());

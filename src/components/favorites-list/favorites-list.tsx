@@ -3,7 +3,7 @@ import PlaceCard from '../../components/place-card/place-card';
 import { City, MarkType, PageType } from '../../utils/consts';
 import { getPlaceCardStyles } from '../../utils/helpers';
 import { TPlaceCard } from '../../types/place-card';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type TFavoritesListProps = {
   places: Partial<Record<TTypeAs<typeof City>, TPlaceCard[]>>;
