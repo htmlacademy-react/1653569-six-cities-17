@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header';
 import { AuthStatus, LogoType } from '../../utils/consts';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type TLoginPageProps = {
   authStatus: TTypeAs<typeof AuthStatus>;

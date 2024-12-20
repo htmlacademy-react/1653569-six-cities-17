@@ -5,7 +5,7 @@ import Footer from '../../components/footer/footer';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import { AuthStatus, LogoType } from '../../utils/consts';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 import { TPlaceCard } from '../../types/place-card';
 
 type TFavoritesPageProps = {

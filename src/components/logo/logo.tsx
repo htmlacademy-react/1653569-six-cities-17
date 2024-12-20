@@ -1,7 +1,7 @@
 import cx from 'classix';
 import { Link } from 'react-router-dom';
 import { AppRoute, PageType } from '../../utils/consts';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type TLogoProps = {
   className?: string;

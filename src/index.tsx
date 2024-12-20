@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import App from './app/app';
-import { placeCards } from './mocks/place-cards';
+import { store } from './store';
+import { loadPlaceCards } from './store/action';
+import offerApiService from './service/offer-api-service';
+
+store.dispatch(loadPlaceCards(offerApiService.getPlaceCards()));
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -9,8 +14,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App
-      placeCards={placeCards}
-    />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );

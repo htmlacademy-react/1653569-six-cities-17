@@ -6,20 +6,21 @@ import PlacesTabs from '../../components/places-tabs/places-tabs';
 import PlacesContainer from '../../components/places-container/places-container';
 import PlacesEmpty from '../../components/places-empty/places-empty';
 import Map from '../../components/map/map';
-import { City, LogoType, MapType, PageType } from '../../utils/consts';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { LogoType, MapType, PageType } from '../../utils/consts';
 import { AuthStatus } from '../../utils/consts';
 import { TPlaceCard } from '../../types/place-card';
-import { TTypeAs } from '../../types/helpers';
+import { TTypeAs } from '../../types/helper';
 
 type TMainPageProps = {
-  cityPlaceCards: TPlaceCard[];
   placeFavorites: TPlaceCard[];
   authStatus: TTypeAs<typeof AuthStatus>;
-  activeTab: TTypeAs<typeof City>;
 }
 
-export default function MainPage({ cityPlaceCards, placeFavorites, authStatus, activeTab }: TMainPageProps): JSX.Element {
+export default function MainPage({ placeFavorites, authStatus }: TMainPageProps): JSX.Element {
   const [activePlaceCardId, setActivePlaceCardId] = useState<string | null>(null);
+  const activeCity = useAppSelector((state) => state.activeCity);
+  const cityPlaceCards = useAppSelector((state) => state.placeCards).filter((place) => place.city.name === activeCity);
   const isPlaces = !!cityPlaceCards.length;
 
   const handleActivePlaceCardId = (placeCardId: string | null) => {
@@ -41,7 +42,7 @@ export default function MainPage({ cityPlaceCards, placeFavorites, authStatus, a
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <PlacesTabs activeTab={activeTab}/>
+        <PlacesTabs activeCity={activeCity}/>
 
         <div className="cities">
           <div className={cx('cities__places-container', 'container', !isPlaces && 'cities__places-container--empty')}>
@@ -50,18 +51,18 @@ export default function MainPage({ cityPlaceCards, placeFavorites, authStatus, a
                 ?
                 <PlacesContainer
                   cityPlaceCards={cityPlaceCards}
-                  activeTab={activeTab}
+                  activeCity={activeCity}
                   onActivePlaceCardId={handleActivePlaceCardId}
                 />
-                : <PlacesEmpty />
+                : <PlacesEmpty activeCity={activeCity} />
             }
 
             <div className="cities__right-section">
               {isPlaces &&
                 <Map
                   cityPlaceCards={cityPlaceCards}
-                  mapType={MapType.Main}
                   activePlaceCardId={activePlaceCardId}
+                  mapType={MapType.Main}
                 />}
             </div>
           </div>
