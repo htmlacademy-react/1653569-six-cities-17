@@ -8,14 +8,11 @@ import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../routes/private-route/private-route';
 import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
 import { AppRoute, AuthStatus } from '../utils/consts';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { getPlaceCards } from '../store/action';
+import { useAppSelector } from '../hooks/use-app-selector';
 
 const authStatus = AuthStatus.Auth;
 
 export default function App(): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(getPlaceCards());
   const placeCards = useAppSelector((state) => state.placeCards);
   const placeFavorites = placeCards.filter((item) => item.isFavorite);
 
