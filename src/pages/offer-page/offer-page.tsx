@@ -7,19 +7,15 @@ import OfferDescription from '../../components/offer-description/offer-descripti
 import OfferReviews from '../../components/offer-reviews/offer-reviews';
 import OfferNearPlacesList from '../../components/offer-near-places-list/offer-near-places-list';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { AuthStatus, LogoType, MapType } from '../../utils/consts';
-import { TTypeAs } from '../../types/helper';
-import { TPlaceCard } from '../../types/place-card';
+import { LogoType, MapType } from '../../utils/consts';
 import { TCommentSend } from '../../types/comment';
 import offerApiService from '../../service/offer-api-service';
 
 type TOfferPageProps = {
-  placeFavorites: TPlaceCard[];
-  authStatus: TTypeAs<typeof AuthStatus>;
   onComment: (comment: TCommentSend) => void;
 }
 
-export default function OfferPage({ placeFavorites, authStatus, onComment }: TOfferPageProps): JSX.Element {
+export default function OfferPage({ onComment }: TOfferPageProps): JSX.Element {
   const params = useParams();
   const offer = offerApiService.getOfferCard(params.id);
   const offerNearPlaces = offerApiService.getOfferNearCards(params.id);
@@ -33,8 +29,6 @@ export default function OfferPage({ placeFavorites, authStatus, onComment }: TOf
         </Helmet>
 
         <Header
-          placeFavorites={placeFavorites}
-          authStatus={authStatus}
           logoType={LogoType.Header}
         />
 
@@ -47,7 +41,6 @@ export default function OfferPage({ placeFavorites, authStatus, onComment }: TOf
 
                 <OfferDescription offer={offer} />
                 <OfferReviews
-                  authStatus={authStatus}
                   onComment={onComment}
                 />
               </div>
@@ -66,9 +59,6 @@ export default function OfferPage({ placeFavorites, authStatus, onComment }: TOf
         </main>
       </div>
       :
-      <NotFoundPage
-        placeFavorites={placeFavorites}
-        authStatus={authStatus}
-      />
+      <NotFoundPage />
   );
 }

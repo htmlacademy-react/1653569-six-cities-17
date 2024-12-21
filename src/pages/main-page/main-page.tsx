@@ -8,19 +8,13 @@ import PlacesEmpty from '../../components/places-empty/places-empty';
 import Map from '../../components/map/map';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { LogoType, MapType, PageType } from '../../utils/consts';
-import { AuthStatus } from '../../utils/consts';
-import { TPlaceCard } from '../../types/place-card';
-import { TTypeAs } from '../../types/helper';
 
-type TMainPageProps = {
-  placeFavorites: TPlaceCard[];
-  authStatus: TTypeAs<typeof AuthStatus>;
-}
-
-export default function MainPage({ placeFavorites, authStatus }: TMainPageProps): JSX.Element {
+export default function MainPage(): JSX.Element {
   const [activePlaceCardId, setActivePlaceCardId] = useState<string | null>(null);
   const activeCity = useAppSelector((state) => state.activeCity);
-  const cityPlaceCards = useAppSelector((state) => state.placeCards).filter((place) => place.city.name === activeCity);
+  const placeCards = useAppSelector((state) => state.placeCards);
+
+  const cityPlaceCards = placeCards.filter((place) => place.city.name === activeCity);
   const isPlaces = !!cityPlaceCards.length;
 
   const handleActivePlaceCardId = (placeCardId: string | null) => {
@@ -34,8 +28,6 @@ export default function MainPage({ placeFavorites, authStatus }: TMainPageProps)
       </Helmet>
 
       <Header
-        placeFavorites={placeFavorites}
-        authStatus={authStatus}
         pageType={PageType.Main}
         logoType={LogoType.Header}
       />

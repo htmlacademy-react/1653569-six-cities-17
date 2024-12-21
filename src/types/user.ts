@@ -3,3 +3,8 @@ export type TUser = {
   avatarUrl: string;
   isPro: boolean;
 };
+
+export type TAuthUser = {
+  email: string;
+  password: string;
+}
