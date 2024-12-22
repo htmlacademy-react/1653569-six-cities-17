@@ -1,6 +1,7 @@
-import { PageType, LogoType, Rating, CARD_STYLES, LOGO_STYLES, MARK_STYLES, MarkType, ICON_STYLES, UrlMarker } from './consts';
+import { PageType, LogoType, Rating, CARD_STYLES, LOGO_STYLES, MARK_STYLES, MarkType, ICON_STYLES, UrlMarker, SortOption } from './consts';
 import { TTypeAs } from '../types/helper';
 import { IconOptions } from 'leaflet';
+import { TPlaceCard } from '../types/place-card';
 
 export const capitalizedFirstChar = (element: string) => element.replace(element[0], element[0].toUpperCase());
 
@@ -63,4 +64,17 @@ export const getIconStyles = (iconType: TTypeAs<typeof UrlMarker>): IconOptions 
   const iconStyle = {iconUrl: iconType};
   Object.assign(iconStyle, ICON_STYLES);
   return iconStyle;
+};
+
+export const sortingCityPlaceCards = (places: TPlaceCard[], option: TTypeAs<typeof SortOption>) => {
+  switch (option) {
+    case SortOption.PriceLowToHigh:
+      return places.toSorted((placeA, placeB) => placeA.price - placeB.price);
+    case SortOption.PriceHighToLow:
+      return places.toSorted((placeA, placeB) => placeB.price - placeA.price);
+    case SortOption.TopRatedFirst:
+      return places.toSorted((placeA, placeB) => placeB.rating - placeA.rating);
+    default:
+      return places;
+  }
 };

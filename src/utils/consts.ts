@@ -54,6 +54,11 @@ export const AuthStatus = {
   Unknown: 'UNKNOWN',
 } as const;
 
+export const AuthUser = {
+  email: '',
+  password: '',
+} as const;
+
 export const Comment = {
   MinLength: 50,
   MaxLength: 300,
@@ -75,12 +80,12 @@ export const MapSetting = {
   Links: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
 } as const;
 
-export const SORT_OPTIONS = [
-  'Popular',
-  'Price: low to high',
-  'Price: high to low',
-  'Top rated first',
-];
+export const SortOption = {
+  Popular: 'Popular',
+  PriceLowToHigh: 'Price: low to high',
+  PriceHighToLow: 'Price: high to low',
+  TopRatedFirst: 'Top rated first',
+} as const;
 
 export const CARD_STYLES = {
   className: ['cities', 'favorites', 'near-places'],

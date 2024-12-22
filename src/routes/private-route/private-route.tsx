@@ -1,13 +1,14 @@
 import { Navigate } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../utils/consts';
-import { TTypeAs } from '../../types/helper';
+import { useAppSelector } from '../../hooks/use-app-selector';
 
 type TPrivateRouteProps = {
-  authStatus: TTypeAs<typeof AuthStatus>;
   children: JSX.Element;
 }
 
-export default function PrivateRoute({ authStatus, children }: TPrivateRouteProps): JSX.Element {
+export default function PrivateRoute({ children }: TPrivateRouteProps): JSX.Element {
+  const authStatus = useAppSelector((state) => state.authStatus);
+
   return (
     authStatus === AuthStatus.Auth
       ? children

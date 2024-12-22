@@ -3,8 +3,12 @@ import { offerCards } from '../mocks/offer-cards';
 import { CardCount } from '../utils/consts';
 
 class OfferApiService {
-  getPlaceCards() {
+  get placeCards() {
     return placeCards;
+  }
+
+  get favoritesCards() {
+    return placeCards.filter((item) => item.isFavorite) ?? [];
   }
 
   getOfferCard(id: string | undefined) {
@@ -15,7 +19,7 @@ class OfferApiService {
     const currentCity = this.getOfferCard(id);
     return placeCards
       .filter((place) => place.city.name === currentCity?.city.name && place.id !== id)
-      .slice(CardCount.Min, CardCount.Max);
+      .slice(CardCount.Min, CardCount.Max) ?? [];
   }
 }
 

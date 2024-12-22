@@ -7,15 +7,9 @@ import LoginPage from '../pages/login-page/login-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../routes/private-route/private-route';
 import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
-import { AppRoute, AuthStatus } from '../utils/consts';
-import { useAppSelector } from '../hooks/use-app-selector';
-
-const authStatus = AuthStatus.Auth;
+import { AppRoute } from '../utils/consts';
 
 export default function App(): JSX.Element {
-  const placeCards = useAppSelector((state) => state.placeCards);
-  const placeFavorites = placeCards.filter((item) => item.isFavorite);
-
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -24,30 +18,20 @@ export default function App(): JSX.Element {
           <Route
             path={AppRoute.Main}
             element={
-              <MainPage
-                placeFavorites={placeFavorites}
-                authStatus={authStatus}
-              />
+              <MainPage />
             }
           />
           <Route
             path={AppRoute.Login}
             element={
-              <LoginPage
-                authStatus={authStatus}
-              />
+              <LoginPage />
             }
           />
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute
-                authStatus={authStatus}
-              >
-                <FavoritesPage
-                  placeFavorites={placeFavorites}
-                  authStatus={authStatus}
-                />
+              <PrivateRoute>
+                <FavoritesPage />
               </PrivateRoute>
             }
           />
@@ -55,8 +39,6 @@ export default function App(): JSX.Element {
             path={`${AppRoute.Offer}${AppRoute.ID}`}
             element={
               <OfferPage
-                placeFavorites={placeFavorites}
-                authStatus={authStatus}
                 onComment={() => {
                   throw new Error('Function \'onComment\' isn\'t implemented.');
                 }}
@@ -66,10 +48,7 @@ export default function App(): JSX.Element {
           <Route
             path={AppRoute.NotFound}
             element={
-              <NotFoundPage
-                placeFavorites={placeFavorites}
-                authStatus={authStatus}
-              />
+              <NotFoundPage />
             }
           />
         </Routes>

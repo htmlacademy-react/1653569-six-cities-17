@@ -4,16 +4,28 @@ import { AuthStatus, LogoType, PageType } from '../../utils/consts';
 import { getLogoStyles } from '../../utils/helpers';
 import { TPlaceCard } from '../../types/place-card';
 import { TTypeAs } from '../../types/helper';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { loadAuthStatus } from '../../store/action';
+import authApiService from '../../service/auth-api-service';
 
 type THeaderProps = {
   placeFavorites?: TPlaceCard[];
-  authStatus?: TTypeAs<typeof AuthStatus>;
   pageType?: TTypeAs<typeof PageType>;
   logoType: TTypeAs<typeof LogoType>;
   isAuth?: boolean;
 }
 
-export default function Header({ placeFavorites, authStatus = AuthStatus.Unknown, pageType, logoType, isAuth = true }: THeaderProps): JSX.Element {
+export default function Header({ pageType, logoType, isAuth = true }: THeaderProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector((state) => state.authStatus);
+
+  const handlerAuthStatusChange = (status: TTypeAs<typeof AuthStatus>) => {
+    authApiService.setAuthStatus(status);
+    dispatch(loadAuthStatus(authApiService.authStatus));
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -31,17 +43,18 @@ export default function Header({ placeFavorites, authStatus = AuthStatus.Unknown
             <nav className="header__nav">
               <ul className="header__nav-list">
 
-                <User
-                  authStatus={authStatus}
-                  placeFavorites={placeFavorites}
-                />
+                <User authStatus={authStatus} />
 
                 {
                   authStatus === AuthStatus.Auth &&
                     <li className="header__nav-item">
-                      <a className="header__nav-link" href="#">
+                      <Link
+                        className="header__nav-link"
+                        to="#"
+                        onClick={() => handlerAuthStatusChange(AuthStatus.NoAuth)}
+                      >
                         <span className="header__signout">Sign out</span>
-                      </a>
+                      </Link>
                     </li>
                 }
               </ul>

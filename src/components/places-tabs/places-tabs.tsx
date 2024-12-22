@@ -2,7 +2,7 @@ import cx from 'classix';
 import { Link } from 'react-router-dom';
 import { City } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { changeActiveCity } from '../../store/action';
+import { changeCity } from '../../store/action';
 import { TTypeAs } from '../../types/helper';
 
 type TPlacesTabsProps = {
@@ -22,7 +22,7 @@ export default function PlacesTabs({ activeCity }: TPlacesTabsProps): JSX.Elemen
                 <Link
                   className={cx('locations__item-link', 'tabs__item', city === activeCity && 'tabs__item--active')}
                   to="#"
-                  onClick={() => dispatch(changeActiveCity(city))}
+                  onClick={() => dispatch(changeCity(city))}
                 >
                   <span>{city}</span>
                 </Link>

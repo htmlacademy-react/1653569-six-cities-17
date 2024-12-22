@@ -2,27 +2,16 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import { AppRoute, AuthStatus, LogoType } from '../../utils/consts';
-import { TTypeAs } from '../../types/helper';
-import { TPlaceCard } from '../../types/place-card';
+import { AppRoute, LogoType } from '../../utils/consts';
 
-type TNotFoundPageProps = {
-  placeFavorites: TPlaceCard[];
-  authStatus: TTypeAs<typeof AuthStatus>;
-}
-
-export default function NotFoundPage({ placeFavorites, authStatus }: TNotFoundPageProps): JSX.Element {
+export default function NotFoundPage(): JSX.Element {
   return (
     <>
       <Helmet>
         <title>6 cities - Page 404</title>
       </Helmet>
 
-      <Header
-        placeFavorites={placeFavorites}
-        authStatus={authStatus}
-        logoType={LogoType.Header}
-      />
+      <Header logoType={LogoType.Header} />
 
       <main className="page__main page__main--favorites page__main--favorites-empty">
         <div className="page__favorites-container container">
