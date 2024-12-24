@@ -2,22 +2,22 @@ import { Helmet } from 'react-helmet-async';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
-import { AppRoute, AuthStatus, AuthUser, LogoType } from '../../utils/consts';
+import { AppRoute, AuthStatus, LogoType } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { loadAuthStatus, loadAuthUser } from '../../store/action';
-import { TAuthUser } from '../../types/user';
-import authApiService from '../../service/auth-api-service';
+import { changeAuthStatus } from '../../store/action';
+import { TAuthData } from '../../types/user';
+import authApiService from '../../services/auth-api-service';
 
 export default function LoginPage(): JSX.Element {
-  const [formData, setFormData] = useState<TAuthUser>(AuthUser);
+  const [formData, setFormData] = useState<TAuthData | null>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleInputEmailChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    if (formData) {
+    if (!formData) {
       setFormData({
-        ...formData,
-        email: evt.target.value
+        email: evt.target.value,
+        password: '',
       });
     }
   };
@@ -37,8 +37,7 @@ export default function LoginPage(): JSX.Element {
     if (formData && formData.email && formData.password) {
       authApiService.setAuthStatus(AuthStatus.Auth);
       authApiService.setAuthUser(formData);
-      dispatch(loadAuthStatus(authApiService.authStatus));
-      dispatch(loadAuthUser(authApiService.authUser));
+      dispatch(changeAuthStatus(authApiService.authStatus));
       navigate(AppRoute.Main);
     }
   };
@@ -59,15 +58,34 @@ export default function LoginPage(): JSX.Element {
           <section className="login">
             <h1 className="login__title">Sign in</h1>
 
-            <form className="login__form form" action="#" method="post" onSubmit={handleFormSubmit}>
+            <form
+              className="login__form form"
+              action="#"
+              method="post"
+              onSubmit={handleFormSubmit}
+            >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required onChange={handleInputEmailChange}/>
+                <input
+                  className="login__input form__input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                  onChange={handleInputEmailChange}
+                />
               </div>
 
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required onChange={handleInputPasswordChange}/>
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  onChange={handleInputPasswordChange}
+                />
               </div>
 
               <button className="login__submit form__submit button" type="submit">Sign in</button>

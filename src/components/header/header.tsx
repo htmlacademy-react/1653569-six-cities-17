@@ -7,8 +7,8 @@ import { TTypeAs } from '../../types/helper';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { loadAuthStatus } from '../../store/action';
-import authApiService from '../../service/auth-api-service';
+import { changeAuthStatus } from '../../store/action';
+import authApiService from '../../services/auth-api-service';
 
 type THeaderProps = {
   placeFavorites?: TPlaceCard[];
@@ -23,7 +23,8 @@ export default function Header({ pageType, logoType, isAuth = true }: THeaderPro
 
   const handlerAuthStatusChange = (status: TTypeAs<typeof AuthStatus>) => {
     authApiService.setAuthStatus(status);
-    dispatch(loadAuthStatus(authApiService.authStatus));
+    authApiService.setAuthUser(null);
+    dispatch(changeAuthStatus(authApiService.authStatus));
   };
 
   return (

@@ -15,14 +15,14 @@ export default function MainPage(): JSX.Element {
   const placeCards = useAppSelector((state) => state.placeCards);
 
   const cityPlaceCards = placeCards.filter((place) => place.city.name === activeCity);
-  const isPlaces = !!cityPlaceCards.length;
+  const hasPlaces = !!cityPlaceCards.length;
 
   const handleActivePlaceCardId = (placeCardId: string | null) => {
     setActivePlaceCardId(placeCardId);
   };
 
   return (
-    <div className={cx('page', 'page--gray page--main', !isPlaces && 'page__main--index-empty')}>
+    <div className={cx('page', 'page--gray page--main', !hasPlaces && 'page__main--index-empty')}>
       <Helmet>
         <title>6 cities</title>
       </Helmet>
@@ -37,9 +37,9 @@ export default function MainPage(): JSX.Element {
         <PlacesTabs activeCity={activeCity}/>
 
         <div className="cities">
-          <div className={cx('cities__places-container', 'container', !isPlaces && 'cities__places-container--empty')}>
+          <div className={cx('cities__places-container', 'container', !hasPlaces && 'cities__places-container--empty')}>
             {
-              isPlaces
+              hasPlaces
                 ?
                 <PlacesContainer
                   cityPlaceCards={cityPlaceCards}
@@ -50,7 +50,7 @@ export default function MainPage(): JSX.Element {
             }
 
             <div className="cities__right-section">
-              {isPlaces &&
+              {hasPlaces &&
                 <Map
                   cityPlaceCards={cityPlaceCards}
                   activePlaceCardId={activePlaceCardId}

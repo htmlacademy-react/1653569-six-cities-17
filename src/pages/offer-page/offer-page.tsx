@@ -9,7 +9,7 @@ import OfferNearPlacesList from '../../components/offer-near-places-list/offer-n
 import NotFoundPage from '../not-found-page/not-found-page';
 import { LogoType, MapType } from '../../utils/consts';
 import { TCommentSend } from '../../types/comment';
-import offerApiService from '../../service/offer-api-service';
+import offerApiService from '../../services/offer-api-service';
 
 type TOfferPageProps = {
   onComment: (comment: TCommentSend) => void;

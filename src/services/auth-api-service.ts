@@ -1,10 +1,10 @@
-import { AuthStatus, AuthUser } from '../utils/consts';
-import { TAuthUser } from '../types/user';
+import { AuthStatus } from '../utils/consts';
+import { TAuthData } from '../types/user';
 import { TTypeAs } from '../types/helper';
 
 class AuthApiService {
   #authStatus: TTypeAs<typeof AuthStatus> = AuthStatus.NoAuth;
-  #authData: TAuthUser = AuthUser;
+  #authData: TAuthData | null = null;
 
   get authStatus() {
     return this.#authStatus;
@@ -18,7 +18,7 @@ class AuthApiService {
     return this.#authData;
   }
 
-  setAuthUser(data: TAuthUser) {
+  setAuthUser(data: TAuthData | null) {
     this.#authData = data;
   }
 }
