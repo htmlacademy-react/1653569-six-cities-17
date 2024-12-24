@@ -7,9 +7,20 @@ import LoginPage from '../pages/login-page/login-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../routes/private-route/private-route';
 import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
-import { AppRoute } from '../utils/consts';
+import { AppRoute, AuthStatus } from '../utils/consts';
+import { useAppSelector } from '../hooks/use-app-selector';
+import Loading from '../components/spinner/spinner';
 
 export default function App(): JSX.Element {
+  const authStatus = useAppSelector((state) => state.authStatus);
+  const isLoading = useAppSelector((state) => state.isLoading);
+
+  if (authStatus === AuthStatus.Unknown || isLoading) {
+    return (
+      <Loading />
+    );
+  }
+
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -30,7 +41,9 @@ export default function App(): JSX.Element {
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute>
+              <PrivateRoute
+                authStatus={authStatus}
+              >
                 <FavoritesPage />
               </PrivateRoute>
             }

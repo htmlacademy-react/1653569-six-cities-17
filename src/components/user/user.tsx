@@ -18,7 +18,7 @@ export default function User({ authStatus }: TUserProps): JSX.Element {
         <div className="header__avatar-wrapper user__avatar-wrapper">
         </div>
         {
-          authStatus === AuthStatus.Auth
+          authStatus === AuthStatus.Auth && authUser
             ?
             <>
               <span className="header__user-name user__name">{authUser.email}</span>

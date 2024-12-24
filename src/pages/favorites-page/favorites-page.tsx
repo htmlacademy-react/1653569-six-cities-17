@@ -9,20 +9,20 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 
 export default function FavoritesPage(): JSX.Element {
   const favoritesCards = useAppSelector((state) => state.favoritesCards);
-  const isFavorites = !!favoritesCards.length;
+  const hasFavorites = !!favoritesCards.length;
 
   return (
-    <div className={cx('page', !isFavorites && 'page--favorites-empty')}>
+    <div className={cx('page', !hasFavorites && 'page--favorites-empty')}>
       <Helmet>
         <title>6 cities - Favorites</title>
       </Helmet>
 
       <Header logoType={LogoType.Header} />
 
-      <main className={cx('page__main', 'page__main--favorites', !isFavorites && 'page__main--favorites-empty')}>
+      <main className={cx('page__main', 'page__main--favorites', !hasFavorites && 'page__main--favorites-empty')}>
         <div className="page__favorites-container container">
           {
-            isFavorites
+            hasFavorites
               ?
               <FavoritesList
                 places={Object.groupBy(favoritesCards, ({city: {name}}) => name)}
@@ -33,7 +33,7 @@ export default function FavoritesPage(): JSX.Element {
       </main>
 
       <Footer
-        isContainer={isFavorites}
+        isContainer={hasFavorites}
         logoType={LogoType.Footer}
       />
     </div>
