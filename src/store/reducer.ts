@@ -1,15 +1,15 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthStatus, City, SortOption } from '../utils/consts';
-import { loadPlaceCards, changeCity, changeSorting, changeAuthStatus, loadFavoritesCards, loadAuthUser, setError, setLoadingStatus } from './action';
+import { loadPlaceCards, changeCity, changeSorting, changeAuthStatus, loadFavoritesCards, setError, setLoadingStatus, setUserData } from './action';
 import { TPlaceCard } from '../types/place-card';
 import { TTypeAs } from '../types/helper';
-import { TAuthData } from '../types/user';
+import { TUserData } from '../types/user';
 
 type TInititialState = {
   activeCity: TTypeAs<typeof City>;
   activeSort: TTypeAs<typeof SortOption>;
   authStatus: TTypeAs<typeof AuthStatus>;
-  authUser: TAuthData | null;
+  userData: TUserData | null;
   placeCards: TPlaceCard[];
   favoritesCards: TPlaceCard[];
   error: string | null;
@@ -20,7 +20,7 @@ const initialState: TInititialState = {
   activeCity: City.Paris,
   activeSort: SortOption.Popular,
   authStatus: AuthStatus.Unknown,
-  authUser: null,
+  userData: null,
   placeCards: [],
   favoritesCards: [],
   error: null,
@@ -38,8 +38,8 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeAuthStatus, (state, action) => {
       state.authStatus = action.payload;
     })
-    .addCase(loadAuthUser, (state, action) => {
-      state.authUser = action.payload;
+    .addCase(setUserData, (state, action) => {
+      state.userData = action.payload;
     })
     .addCase(changeCity, (state, action) => {
       state.activeCity = action.payload;
