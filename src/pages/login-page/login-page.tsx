@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { FormEvent, useRef } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import { AppRoute, AuthStatus, LogoType } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
@@ -15,7 +15,6 @@ export default function LoginPage({ authStatus }: TAuthStatus): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -25,8 +24,6 @@ export default function LoginPage({ authStatus }: TAuthStatus): JSX.Element {
         email: emailRef.current.value,
         password: passwordRef.current.value
       }));
-
-      navigate(AppRoute.Main);
     }
   };
 

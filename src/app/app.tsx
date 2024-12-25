@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import MainPage from '../pages/main-page/main-page';
 import FavoritesPage from '../pages/favorites-page/favorites-page';
@@ -10,6 +10,8 @@ import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
 import { AppRoute, AuthStatus } from '../utils/consts';
 import { useAppSelector } from '../hooks/use-app-selector';
 import Loading from '../components/spinner/spinner';
+import HistoryRouter from '../routes/history-route/history-route';
+import browserHistory from '../browser-history';
 
 export default function App(): JSX.Element {
   const authStatus = useAppSelector((state) => state.authStatus);
@@ -23,7 +25,7 @@ export default function App(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <ScrollToTop />
         <Routes>
           <Route
@@ -67,7 +69,7 @@ export default function App(): JSX.Element {
             }
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }

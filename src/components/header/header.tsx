@@ -20,10 +20,6 @@ export default function Header({ pageType, logoType, isAuth = true }: THeaderPro
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector((state) => state.authStatus);
 
-  const handlerAuthStatusChange = () => {
-    dispatch(logoutAction());
-  };
-
   return (
     <header className="header">
       <div className="container">
@@ -49,7 +45,9 @@ export default function Header({ pageType, logoType, isAuth = true }: THeaderPro
                       <Link
                         className="header__nav-link"
                         to="#"
-                        onClick={handlerAuthStatusChange}
+                        onClick={() => {
+                          dispatch(logoutAction());
+                        }}
                       >
                         <span className="header__signout">Sign out</span>
                       </Link>

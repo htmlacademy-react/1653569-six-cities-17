@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthStatus, City, SortOption } from '../utils/consts';
-import { loadPlaceCards, changeCity, changeSorting, changeAuthStatus, loadFavoritesCards, setError, setLoadingStatus, setUserData } from './action';
+import { loadPlaceCards, changeCity, changeSorting, changeAuthStatus, loadFavoritesCards, setLoadingStatus, setUserData } from './action';
 import { TPlaceCard } from '../types/place-card';
 import { TTypeAs } from '../types/helper';
 import { TUserData } from '../types/user';
@@ -12,7 +12,6 @@ type TInititialState = {
   userData: TUserData | null;
   placeCards: TPlaceCard[];
   favoritesCards: TPlaceCard[];
-  error: string | null;
   isLoading: boolean;
 }
 
@@ -23,7 +22,6 @@ const initialState: TInititialState = {
   userData: null,
   placeCards: [],
   favoritesCards: [],
-  error: null,
   isLoading: false,
 };
 
@@ -46,9 +44,6 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeSorting, (state, action) => {
       state.activeSort = action.payload;
-    })
-    .addCase(setError, (state, action) => {
-      state.error = action.payload;
     })
     .addCase(setLoadingStatus, (state, action) => {
       state.isLoading = action.payload;
