@@ -1,22 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { changeAuthStatus, loadPlaceCards, setError, setLoadingStatus } from './action';
-import { APIRoute, AuthStatus, TIMEOUT_SHOW_ERROR } from '../utils/consts';
+import { changeAuthStatus, loadPlaceCards, redirectToRoute, setLoadingStatus, setUserData } from './action';
+import { APIRoute, AppRoute, AuthStatus } from '../utils/consts';
 import { removeToken, setToken } from '../services/token';
-import { store } from './';
 import { TPlaceCard } from '../types/place-card';
 import { TAuthData, TUserData } from '../types/user';
-
-export const clearErrorAction = createAsyncThunk(
-  'app/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
-);
 
 export const fetchPlaceCardsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -55,9 +44,11 @@ export const loginAction = createAsyncThunk<void, TAuthData, {
 }>(
   'user/login',
   async ({email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<TUserData>(APIRoute.Login, {email, password});
-    setToken(token);
+    const {data} = await api.post<TUserData>(APIRoute.Login, {email, password});
+    setToken(data.token);
+    dispatch(setUserData(data));
     dispatch(changeAuthStatus(AuthStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 
@@ -70,6 +61,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     removeToken();
+    dispatch(setUserData(null));
     dispatch(changeAuthStatus(AuthStatus.NoAuth));
   },
 );

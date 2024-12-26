@@ -1,46 +1,35 @@
 import { Helmet } from 'react-helmet-async';
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FormEvent, useRef } from 'react';
+import { Navigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import { AppRoute, AuthStatus, LogoType } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { changeAuthStatus } from '../../store/action';
-import { TAuthData } from '../../types/user';
-import authApiService from '../../services/auth-api-service';
+import { loginAction } from '../../store/api-actions';
+import { TTypeAs } from '../../types/helper';
 
-export default function LoginPage(): JSX.Element {
-  const [formData, setFormData] = useState<TAuthData | null>(null);
+type TAuthStatus = {
+  authStatus: TTypeAs<typeof AuthStatus>;
+}
+
+export default function LoginPage({ authStatus }: TAuthStatus): JSX.Element {
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const handleInputEmailChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    if (!formData) {
-      setFormData({
-        email: evt.target.value,
-        password: '',
-      });
-    }
-  };
-
-  const handleInputPasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    if (formData) {
-      setFormData({
-        ...formData,
-        password: evt.target.value
-      });
-    }
-  };
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (formData && formData.email && formData.password) {
-      authApiService.setAuthStatus(AuthStatus.Auth);
-      authApiService.setAuthUser(formData);
-      dispatch(changeAuthStatus(authApiService.authStatus));
-      navigate(AppRoute.Main);
+    if (emailRef.current !== null && passwordRef.current !== null) {
+      dispatch(loginAction({
+        email: emailRef.current.value,
+        password: passwordRef.current.value
+      }));
     }
   };
+
+  if (authStatus === AuthStatus.Auth) {
+    return <Navigate to={AppRoute.Main} />;
+  }
 
   return (
     <div className="page page--gray page--login">
@@ -72,7 +61,7 @@ export default function LoginPage(): JSX.Element {
                   name="email"
                   placeholder="Email"
                   required
-                  onChange={handleInputEmailChange}
+                  ref={emailRef}
                 />
               </div>
 
@@ -84,7 +73,7 @@ export default function LoginPage(): JSX.Element {
                   name="password"
                   placeholder="Password"
                   required
-                  onChange={handleInputPasswordChange}
+                  ref={passwordRef}
                 />
               </div>
 

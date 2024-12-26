@@ -7,8 +7,7 @@ import { TTypeAs } from '../../types/helper';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { changeAuthStatus } from '../../store/action';
-import authApiService from '../../services/auth-api-service';
+import { logoutAction } from '../../store/api-actions';
 
 type THeaderProps = {
   placeFavorites?: TPlaceCard[];
@@ -20,12 +19,6 @@ type THeaderProps = {
 export default function Header({ pageType, logoType, isAuth = true }: THeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector((state) => state.authStatus);
-
-  const handlerAuthStatusChange = (status: TTypeAs<typeof AuthStatus>) => {
-    authApiService.setAuthStatus(status);
-    authApiService.setAuthUser(null);
-    dispatch(changeAuthStatus(authApiService.authStatus));
-  };
 
   return (
     <header className="header">
@@ -52,7 +45,9 @@ export default function Header({ pageType, logoType, isAuth = true }: THeaderPro
                       <Link
                         className="header__nav-link"
                         to="#"
-                        onClick={() => handlerAuthStatusChange(AuthStatus.NoAuth)}
+                        onClick={() => {
+                          dispatch(logoutAction());
+                        }}
                       >
                         <span className="header__signout">Sign out</span>
                       </Link>
