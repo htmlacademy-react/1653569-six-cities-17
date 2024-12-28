@@ -8,8 +8,8 @@ import { LogoType } from '../../utils/consts';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
 export default function FavoritesPage(): JSX.Element {
-  const favoritesCards = useAppSelector((state) => state.favoritesCards);
-  const hasFavorites = !!favoritesCards.length;
+  const placeFavorites = useAppSelector((state) => state.placeFavorites);
+  const hasFavorites = !!placeFavorites.length;
 
   return (
     <div className={cx('page', !hasFavorites && 'page--favorites-empty')}>
@@ -25,7 +25,7 @@ export default function FavoritesPage(): JSX.Element {
             hasFavorites
               ?
               <FavoritesList
-                places={Object.groupBy(favoritesCards, ({city: {name}}) => name)}
+                places={Object.groupBy(placeFavorites, ({city: {name}}) => name)}
               />
               : <FavoritesEmpty />
           }

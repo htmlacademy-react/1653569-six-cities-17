@@ -29,7 +29,7 @@ export default function PlaceCard({ place, markType, onActivePlaceCardId, classN
       {isPremium && <PremiumMark {...getMarkStyles(markType)} />}
 
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
-        <Link to={`${AppRoute.Offer}/${id}`}>
+        <Link to={`${AppRoute.Offer}${AppRoute.Main}${id}`}>
           <img
             className="place-card__image"
             src={previewImage}

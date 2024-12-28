@@ -1,4 +1,4 @@
-const AUTH_TOKEN = 'six-cities-token';
+import { AUTH_TOKEN } from '../utils/consts';
 
 export const getToken = (): string => {
   const token = localStorage.getItem(AUTH_TOKEN);

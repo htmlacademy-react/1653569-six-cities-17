@@ -9,7 +9,7 @@ type TUserProps = {
 
 export default function User({ authStatus }: TUserProps): JSX.Element {
   const link = authStatus === AuthStatus.Auth ? AppRoute.Favorites : AppRoute.Login;
-  const favoritesCard = useAppSelector((state) => state.favoritesCards);
+  const favoritesCard = useAppSelector((state) => state.placeFavorites);
   const userData = useAppSelector((state) => state.userData);
 
   return (

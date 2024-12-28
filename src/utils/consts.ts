@@ -1,4 +1,5 @@
 export const BACKEND_URL = 'https://16.design.htmlacademy.pro/six-cities';
+export const AUTH_TOKEN = 'six-cities-token';
 export const REQUEST_TIMEOUT = 5000;
 
 export const City = {
@@ -47,14 +48,17 @@ export const AppRoute = {
   Login: '/login',
   Favorites: '/favorites',
   Offer: '/offer',
-  ID: '/:id',
+  Id: '/:id',
   NotFound: '*'
 } as const;
 
 export const APIRoute = {
+  Main: '/',
   Offers: '/offers',
+  Nearby: '/nearby',
   Login: '/login',
   Logout: '/logout',
+  Comments: '/comments'
 } as const;
 
 export const AuthStatus = {
@@ -66,6 +70,8 @@ export const AuthStatus = {
 export const Comment = {
   MinLength: 50,
   MaxLength: 300,
+  MinCount: 0,
+  MaxCount: 10,
   InitState: '',
 } as const;
 

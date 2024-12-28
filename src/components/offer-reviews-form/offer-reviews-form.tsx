@@ -1,19 +1,22 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 import { Comment, Rating, RATINGS } from '../../utils/consts';
-import { TCommentSend } from '../../types/comment';
+import { TUserComment } from '../../types/user';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { fetchPlaceOfferCommentAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
-const initFormData: TCommentSend = {
+const initFormData: TUserComment = {
   rating: Rating.InitState,
   comment: Comment.InitState,
 };
 
-type TOfferReviewForm = {
-  onComment: (comment: TCommentSend) => void;
-}
-
-export default function OfferReviewsForm({ onComment }: TOfferReviewForm): JSX.Element {
+export default function OfferReviewsForm(): JSX.Element {
   const [formData, setFormData] = useState(initFormData);
-  const isDisabledSubmit = formData.rating > Rating.InitState
+  const offer = useAppSelector((state) => state.placeOffer);
+  const isFormDisabled = useAppSelector((state) => state.isFormDisabled);
+  const dispatch = useAppDispatch();
+
+  const hasFormValidate = formData.rating > Rating.InitState
     && formData.comment.length >= Comment.MinLength
     && formData.comment.length < Comment.MaxLength;
 
@@ -33,7 +36,16 @@ export default function OfferReviewsForm({ onComment }: TOfferReviewForm): JSX.E
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onComment(formData);
+    if (offer) {
+      dispatch(fetchPlaceOfferCommentAction({
+        id: offer.id,
+        data: formData,
+      })).then((response) => {
+        if (response.meta.requestStatus === 'fulfilled') {
+          setFormData(initFormData);
+        }
+      });
+    }
   };
 
   return (
@@ -55,6 +67,7 @@ export default function OfferReviewsForm({ onComment }: TOfferReviewForm): JSX.E
                 id={`${value}-stars`}
                 type="radio"
                 onChange={handleRatingChange}
+                disabled={isFormDisabled}
               />
               <label
                 htmlFor={`${value}-stars`}
@@ -77,6 +90,7 @@ export default function OfferReviewsForm({ onComment }: TOfferReviewForm): JSX.E
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.comment}
         onChange={handleTextareaChange}
+        disabled={isFormDisabled}
       >
       </textarea>
 
@@ -88,7 +102,7 @@ export default function OfferReviewsForm({ onComment }: TOfferReviewForm): JSX.E
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isDisabledSubmit}
+          disabled={!hasFormValidate || isFormDisabled}
         >Submit
         </button>
       </div>
