@@ -1,25 +1,24 @@
 import OfferReviewsList from '../../components/offer-reviews-list/offer-reviews-list';
 import OfferReviewsForm from '../../components/offer-reviews-form/offer-reviews-form';
-import { comments } from '../../mocks/comments';
 import { AuthStatus } from '../../utils/consts';
-import { TCommentSend } from '../../types/comment';
+import { TUserReview } from '../../types/user';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
 type TOfferReviewsProps = {
-  onComment: (comment: TCommentSend) => void;
+  reviews: TUserReview[];
 }
 
-export default function OfferReviews({ onComment }: TOfferReviewsProps): JSX.Element {
+export default function OfferReviews({ reviews }: TOfferReviewsProps): JSX.Element {
   const authStatus = useAppSelector((state) => state.authStatus);
 
   return (
     <section className="offer__reviews reviews">
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
 
-      <OfferReviewsList comments={comments}/>
+      <OfferReviewsList reviews={reviews}/>
       {
         authStatus === AuthStatus.Auth &&
-          <OfferReviewsForm onComment={onComment}/>
+          <OfferReviewsForm />
       }
     </section>
   );

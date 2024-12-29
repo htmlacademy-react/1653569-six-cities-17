@@ -11,7 +11,7 @@ type TDetailMessage = {
 
 const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
-  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.UNAUTHORIZED]: false,
   [StatusCodes.NOT_FOUND]: true
 };
 
@@ -37,9 +37,8 @@ export const createAPI = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError<TDetailMessage>) => {
       if (error.response && hasError(error.response)) {
-        const detailMessage = (error.response.data);
-
-        toast.warn(detailMessage.message);
+        const { message } = error.response.data;
+        toast.warn(message);
       }
 
       throw error;

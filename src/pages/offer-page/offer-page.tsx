@@ -7,58 +7,71 @@ import OfferDescription from '../../components/offer-description/offer-descripti
 import OfferReviews from '../../components/offer-reviews/offer-reviews';
 import OfferNearPlacesList from '../../components/offer-near-places-list/offer-near-places-list';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { LogoType, MapType } from '../../utils/consts';
-import { TCommentSend } from '../../types/comment';
-import offerApiService from '../../services/offer-api-service';
+import { CardCount, LogoType, MapType } from '../../utils/consts';
+import Loading from '../../components/spinner/spinner';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { fetchPlaceCardsNearbyAction, fetchPlaceOfferAction, fetchPlaceOfferReviewsAction } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks/use-app-selector';
 
-type TOfferPageProps = {
-  onComment: (comment: TCommentSend) => void;
-}
+export default function OfferPage(): JSX.Element {
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
 
-export default function OfferPage({ onComment }: TOfferPageProps): JSX.Element {
-  const params = useParams();
-  const offer = offerApiService.getOfferCard(params.id);
-  const offerNearPlaces = offerApiService.getOfferNearCards(params.id);
+  const offer = useAppSelector((state) => state.placeOffer);
+  const offerNearPlaces = useAppSelector((state) => state.placeCardsNearby).slice(CardCount.Min, CardCount.Max);
+  const reviews = useAppSelector((state) => state.placeOfferReviews);
+  const isOfferLoading = useAppSelector((state) => state.isPlaceOfferLoading);
+  const isNearbyLoading = useAppSelector((state) => state.isPlaceCardsNearbyLoading);
+  const isReviewsLoading = useAppSelector((state) => state.isPlaceOfferReviewsLoading);
+
+  useEffect(() => {
+    dispatch(fetchPlaceOfferAction(id as string));
+    dispatch(fetchPlaceCardsNearbyAction(id as string));
+    dispatch(fetchPlaceOfferReviewsAction(id as string));
+  }, [id, dispatch]);
+
+  if (isOfferLoading || isNearbyLoading || isReviewsLoading) {
+    return <Loading />;
+  }
+
+  if (!offer) {
+    return <NotFoundPage />;
+  }
 
   return (
-    offer
-      ?
-      <div className="page">
-        <Helmet>
-          <title>6 cities - Offer</title>
-        </Helmet>
+    <div className="page">
+      <Helmet>
+        <title>6 cities - Offer</title>
+      </Helmet>
 
-        <Header
-          logoType={LogoType.Header}
-        />
+      <Header
+        logoType={LogoType.Header}
+      />
 
-        <main className="page__main page__main--offer">
-          <section className="offer">
-            <OfferGallery images={offer.images} />
+      <main className="page__main page__main--offer">
+        <section className="offer">
+          <OfferGallery images={offer.images} />
 
-            <div className="offer__container container">
-              <div className="offer__wrapper">
+          <div className="offer__container container">
+            <div className="offer__wrapper">
 
-                <OfferDescription offer={offer} />
-                <OfferReviews
-                  onComment={onComment}
-                />
-              </div>
+              <OfferDescription offer={offer} />
+              <OfferReviews reviews={reviews} />
             </div>
-
-            <Map
-              cityPlaceCards={offerNearPlaces}
-              currentOfferCard={offer}
-              mapType={MapType.Offer}
-            />
-          </section>
-
-          <div className="container">
-            <OfferNearPlacesList offerNearPlaces={offerNearPlaces} />
           </div>
-        </main>
-      </div>
-      :
-      <NotFoundPage />
+
+          <Map
+            cityPlaceCards={offerNearPlaces}
+            currentOfferCard={offer}
+            mapType={MapType.Offer}
+          />
+        </section>
+
+        <div className="container">
+          <OfferNearPlacesList offerNearPlaces={offerNearPlaces} />
+        </div>
+      </main>
+    </div>
   );
 }

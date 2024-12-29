@@ -15,7 +15,7 @@ import browserHistory from '../browser-history';
 
 export default function App(): JSX.Element {
   const authStatus = useAppSelector((state) => state.authStatus);
-  const isLoading = useAppSelector((state) => state.isLoading);
+  const isLoading = useAppSelector((state) => state.isPlaceCardsLoading);
 
   if (authStatus === AuthStatus.Unknown || isLoading) {
     return (
@@ -53,13 +53,9 @@ export default function App(): JSX.Element {
             }
           />
           <Route
-            path={`${AppRoute.Offer}${AppRoute.ID}`}
+            path={`${AppRoute.Offer}${AppRoute.Id}`}
             element={
-              <OfferPage
-                onComment={() => {
-                  throw new Error('Function \'onComment\' isn\'t implemented.');
-                }}
-              />
+              <OfferPage />
             }
           />
           <Route
