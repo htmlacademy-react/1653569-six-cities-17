@@ -6,10 +6,11 @@ import FavoritesList from '../../components/favorites-list/favorites-list';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import { LogoType } from '../../utils/consts';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectFavorites } from '../../store/favorites/favorites.selectors';
 
 export default function FavoritesPage(): JSX.Element {
-  const placeFavorites = useAppSelector((state) => state.placeFavorites);
-  const hasFavorites = !!placeFavorites.length;
+  const placeFavorites = useAppSelector(selectFavorites);
+  const hasFavorites = Boolean(placeFavorites.length);
 
   return (
     <div className={cx('page', !hasFavorites && 'page--favorites-empty')}>

@@ -1,24 +1,27 @@
 import PlaceCard from '../place-card/place-card';
-import { MarkType, PageType } from '../../utils/consts';
-import { getPlaceCardStyles } from '../../utils/helpers';
+import {CARD_STYLES, MarkType, PageType} from '../../utils/consts';
+import { getStyles } from '../../utils/helpers';
 import { TPlaceCard } from '../../types/place-card';
+import { TTypeAs } from '../../types/helper';
 
-type TOfferNearPlacesList = {
-  offerNearPlaces: TPlaceCard[];
+type TOfferNearbyPlacesList = {
+  offerNearbyPlaces: TPlaceCard[] | [];
+  pageType: TTypeAs<typeof PageType>;
 }
 
-export default function OfferNearPlacesList({ offerNearPlaces }: TOfferNearPlacesList): JSX.Element {
+export default function OfferNearbyPlacesList({ offerNearbyPlaces, pageType }: TOfferNearbyPlacesList): JSX.Element {
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
         {
-          offerNearPlaces.map((place) => (
+          offerNearbyPlaces.map((place) => (
             <PlaceCard
               key={place.id}
               place={place}
               markType={MarkType.Small}
-              {...getPlaceCardStyles(PageType.Offer)}
+              pageType={pageType}
+              {...getStyles(pageType, CARD_STYLES)}
             />
           ))
         }

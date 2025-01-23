@@ -7,29 +7,41 @@ import OfferDescription from '../../components/offer-description/offer-descripti
 import OfferReviews from '../../components/offer-reviews/offer-reviews';
 import OfferNearPlacesList from '../../components/offer-near-places-list/offer-near-places-list';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { CardCount, LogoType, MapType } from '../../utils/consts';
+import { LogoType, MapType, PageType } from '../../utils/consts';
 import Loading from '../../components/spinner/spinner';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { fetchPlaceCardsNearbyAction, fetchPlaceOfferAction, fetchPlaceOfferReviewsAction } from '../../store/api-actions';
+import { fetchOfferAction, fetchNearbyAction, fetchReviewsAction } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { changeCardId } from '../../store/places/places.slice';
+import { selectOffer, selectOfferLoadingStatus } from '../../store/offer/offer.selectors';
+import { selectReviews, selectReviewsLoadingStatus } from '../../store/reviews/reviews.selectors';
+import { selectNearby, selectNearbyLoadingStatus } from '../../store/nearby/nearby.selectros';
 
 export default function OfferPage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
 
-  const offer = useAppSelector((state) => state.placeOffer);
-  const offerNearPlaces = useAppSelector((state) => state.placeCardsNearby).slice(CardCount.Min, CardCount.Max);
-  const reviews = useAppSelector((state) => state.placeOfferReviews);
-  const isOfferLoading = useAppSelector((state) => state.isPlaceOfferLoading);
-  const isNearbyLoading = useAppSelector((state) => state.isPlaceCardsNearbyLoading);
-  const isReviewsLoading = useAppSelector((state) => state.isPlaceOfferReviewsLoading);
+  const offer = useAppSelector(selectOffer);
+  const reviews = useAppSelector(selectReviews);
+  const offerNearbyPlaces = useAppSelector(selectNearby) ?? [];
+
+  const isOfferLoading = useAppSelector(selectOfferLoadingStatus);
+  const isNearbyLoading = useAppSelector(selectNearbyLoadingStatus);
+  const isReviewsLoading = useAppSelector(selectReviewsLoadingStatus);
 
   useEffect(() => {
-    dispatch(fetchPlaceOfferAction(id as string));
-    dispatch(fetchPlaceCardsNearbyAction(id as string));
-    dispatch(fetchPlaceOfferReviewsAction(id as string));
-  }, [id, dispatch]);
+    if (id) {
+      dispatch(fetchOfferAction(id));
+      dispatch(fetchNearbyAction(id));
+      dispatch(fetchReviewsAction(id));
+    }
+
+    return () => {
+      dispatch(changeCardId(null));
+    };
+  }, [id, dispatch]
+  );
 
   if (isOfferLoading || isNearbyLoading || isReviewsLoading) {
     return <Loading />;
@@ -62,14 +74,17 @@ export default function OfferPage(): JSX.Element {
           </div>
 
           <Map
-            cityPlaceCards={offerNearPlaces}
+            cityPlaceCards={offerNearbyPlaces}
             currentOfferCard={offer}
             mapType={MapType.Offer}
           />
         </section>
 
         <div className="container">
-          <OfferNearPlacesList offerNearPlaces={offerNearPlaces} />
+          <OfferNearPlacesList
+            offerNearbyPlaces={offerNearbyPlaces}
+            pageType={PageType.Offer}
+          />
         </div>
       </main>
     </div>

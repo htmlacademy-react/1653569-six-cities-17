@@ -2,34 +2,38 @@ import { Link } from 'react-router-dom';
 import Bookmark from '../bookmark/bookmark';
 import PremiumMark from '../premium-mark/premium-mark';
 import Rating from '../rating/rating';
-import { capitalizedFirstChar, getMarkStyles } from '../../utils/helpers';
-import { AppRoute, MarkType, RatingType } from '../../utils/consts';
+import { capitalizedFirstChar, getStyles } from '../../utils/helpers';
+import {AppRoute, MARK_STYLES, MarkType, PageType, RatingType} from '../../utils/consts';
 import { TPlaceCard } from '../../types/place-card';
 import { TTypeAs } from '../../types/helper';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { changeCardId } from '../../store/places/places.slice';
 
 type TPlaceCardProps = {
   place: TPlaceCard;
   markType: TTypeAs<typeof MarkType>;
-  onActivePlaceCardId?: (id: string | null) => void;
+  pageType: TTypeAs<typeof PageType>;
   className?: string;
   width?: number;
   height?: number;
 }
 
-export default function PlaceCard({ place, markType, onActivePlaceCardId, className, width, height }: TPlaceCardProps): JSX.Element {
+export default function PlaceCard({ place, markType, pageType, className, width, height }: TPlaceCardProps): JSX.Element {
   const { id, title, type, price, isPremium, isFavorite, rating, previewImage } = place;
+  const isMainPage = pageType === PageType.Main;
+  const dispatch = useAppDispatch();
 
   return (
     <article
       className={`${className}__card place-card`}
-      onMouseEnter={() => onActivePlaceCardId ? onActivePlaceCardId(id) : null}
-      onMouseLeave={() => onActivePlaceCardId ? onActivePlaceCardId(null) : null}
+      onMouseEnter={() => isMainPage ? dispatch(changeCardId(id)) : null}
+      onMouseLeave={() => isMainPage ? dispatch(changeCardId(null)) : null}
     >
 
-      {isPremium && <PremiumMark {...getMarkStyles(markType)} />}
+      {isPremium && <PremiumMark {...getStyles(markType, MARK_STYLES)} />}
 
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
-        <Link to={`${AppRoute.Offer}${AppRoute.Main}${id}`}>
+        <Link to={`${AppRoute.Offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -49,7 +53,7 @@ export default function PlaceCard({ place, markType, onActivePlaceCardId, classN
 
           <Bookmark
             isFavorite={isFavorite}
-            {...getMarkStyles(markType)}
+            {...getStyles(markType, MARK_STYLES)}
           />
         </div>
 

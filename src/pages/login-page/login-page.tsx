@@ -1,19 +1,21 @@
 import { Helmet } from 'react-helmet-async';
 import { FormEvent, useRef } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Header from '../../components/header/header';
-import { AppRoute, AuthStatus, LogoType } from '../../utils/consts';
+import { AppRoute, AuthorizationStatus, City, LogoType } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { loginAction } from '../../store/api-actions';
+import { changeCity } from '../../store/places/places.slice';
 import { TTypeAs } from '../../types/helper';
 
 type TAuthStatus = {
-  authStatus: TTypeAs<typeof AuthStatus>;
+  authStatus: TTypeAs<typeof AuthorizationStatus>;
 }
 
 export default function LoginPage({ authStatus }: TAuthStatus): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const randomCity = Object.values(City)[Math.floor(Math.random() * Object.keys(City).length)];
   const dispatch = useAppDispatch();
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -27,7 +29,7 @@ export default function LoginPage({ authStatus }: TAuthStatus): JSX.Element {
     }
   };
 
-  if (authStatus === AuthStatus.Auth) {
+  if (authStatus === AuthorizationStatus.Auth) {
     return <Navigate to={AppRoute.Main} />;
   }
 
@@ -72,6 +74,8 @@ export default function LoginPage({ authStatus }: TAuthStatus): JSX.Element {
                   type="password"
                   name="password"
                   placeholder="Password"
+                  pattern='^.*(?=.*[a-zа-яё])(?=.*\d).*$'
+                  title='The password must consist of at least one letter and one number'
                   required
                   ref={passwordRef}
                 />
@@ -83,9 +87,13 @@ export default function LoginPage({ authStatus }: TAuthStatus): JSX.Element {
 
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link
+                className="locations__item-link"
+                to={AppRoute.Main}
+                onClick={() => dispatch(changeCity(randomCity))}
+              >
+                <span>{randomCity}</span>
+              </Link>
             </div>
           </section>
         </div>

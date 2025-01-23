@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import cx from 'classix';
 import Header from '../../components/header/header';
@@ -8,18 +7,12 @@ import PlacesEmpty from '../../components/places-empty/places-empty';
 import Map from '../../components/map/map';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { LogoType, MapType, PageType } from '../../utils/consts';
+import { selectActiveCity, selectPlacesByCity } from '../../store/places/places.selectors';
 
 export default function MainPage(): JSX.Element {
-  const [activePlaceCardId, setActivePlaceCardId] = useState<string | null>(null);
-  const activeCity = useAppSelector((state) => state.activeCity);
-  const placeCards = useAppSelector((state) => state.placeCards);
-
-  const cityPlaceCards = placeCards.filter((place) => place.city.name === activeCity);
-  const hasPlaces = !!cityPlaceCards.length;
-
-  const handleActivePlaceCardId = (placeCardId: string | null) => {
-    setActivePlaceCardId(placeCardId);
-  };
+  const activeCity = useAppSelector(selectActiveCity);
+  const cityPlaceCards = useAppSelector(selectPlacesByCity);
+  const hasPlaces = Boolean(cityPlaceCards.length);
 
   return (
     <div className={cx('page', 'page--gray page--main', !hasPlaces && 'page__main--index-empty')}>
@@ -44,7 +37,7 @@ export default function MainPage(): JSX.Element {
                 <PlacesContainer
                   cityPlaceCards={cityPlaceCards}
                   activeCity={activeCity}
-                  onActivePlaceCardId={handleActivePlaceCardId}
+                  pageType={PageType.Main}
                 />
                 : <PlacesEmpty activeCity={activeCity} />
             }
@@ -53,7 +46,6 @@ export default function MainPage(): JSX.Element {
               {hasPlaces &&
                 <Map
                   cityPlaceCards={cityPlaceCards}
-                  activePlaceCardId={activePlaceCardId}
                   mapType={MapType.Main}
                 />}
             </div>

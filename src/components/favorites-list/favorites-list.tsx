@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import PlaceCard from '../../components/place-card/place-card';
-import { City, MarkType, PageType } from '../../utils/consts';
-import { getPlaceCardStyles } from '../../utils/helpers';
+import {CARD_STYLES, City, MarkType, PageType} from '../../utils/consts';
+import { getStyles } from '../../utils/helpers';
 import { TPlaceCard } from '../../types/place-card';
 import { TTypeAs } from '../../types/helper';
 
@@ -33,7 +33,8 @@ export default function FavoritesList({ places }: TFavoritesListProps): JSX.Elem
                       key={place.title}
                       place={place}
                       markType={MarkType.Small}
-                      {...getPlaceCardStyles(PageType.Favorites)}
+                      pageType={PageType.Favorites}
+                      {...getStyles(PageType.Favorites, CARD_STYLES)}
                     />
                   ))
                 }

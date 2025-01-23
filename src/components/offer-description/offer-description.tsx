@@ -1,8 +1,8 @@
 import Bookmark from '../bookmark/bookmark';
 import PremiumMark from '../premium-mark/premium-mark';
 import Rating from '../rating/rating';
-import { MarkType, RatingType } from '../../utils/consts';
-import { capitalizedFirstChar, getMarkStyles } from '../../utils/helpers';
+import {MARK_STYLES, MarkType, RatingType} from '../../utils/consts';
+import { capitalizedFirstChar, getStyles } from '../../utils/helpers';
 import { TOfferCard } from '../../types/offer-card';
 
 type TOfferDescription = {
@@ -15,7 +15,7 @@ export default function OfferDescription({ offer }: TOfferDescription): JSX.Elem
 
   return (
     <>
-      {isPremium && <PremiumMark {...getMarkStyles(MarkType.Medium)} />}
+      {isPremium && <PremiumMark {...getStyles(MarkType.Medium, MARK_STYLES)} />}
 
       <div className="offer__name-wrapper">
         <h1 className="offer__name">
@@ -24,7 +24,7 @@ export default function OfferDescription({ offer }: TOfferDescription): JSX.Elem
 
         <Bookmark
           isFavorite={isFavorite}
-          {...getMarkStyles(MarkType.Medium)}
+          {...getStyles(MarkType.Medium, MARK_STYLES)}
         />
       </div>
 
