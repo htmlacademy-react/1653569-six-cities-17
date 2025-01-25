@@ -1,17 +1,14 @@
-import { useEffect, useRef } from 'react';
 import leaflet, { layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
+import { memo, useEffect, useMemo, useRef } from 'react';
 import { MapType, UrlMarker } from '../../utils/consts';
 import { TTypeAs } from '../../types/helper';
 import { TPlaceCard } from '../../types/place-card';
 import { TOfferCard } from '../../types/offer-card';
 import { getIconOptions } from '../../utils/helpers';
-import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectActiveCardId } from '../../store/places/places.selectors';
-
-const defaultIcon = leaflet.icon(getIconOptions(UrlMarker.Default));
-const currentIcon = leaflet.icon(getIconOptions(UrlMarker.Current));
+import 'leaflet/dist/leaflet.css';
 
 type TMapProps = {
   cityPlaceCards: TPlaceCard[];
@@ -19,9 +16,11 @@ type TMapProps = {
   mapType: TTypeAs<typeof MapType>;
 }
 
-export default function Map({ cityPlaceCards, currentOfferCard, mapType }: TMapProps): JSX.Element {
+function Map({ cityPlaceCards, currentOfferCard, mapType }: TMapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityPlaceCards[0].city.location, mapType);
+  const defaultIcon = useMemo(() => leaflet.icon(getIconOptions(UrlMarker.Default)), []);
+  const currentIcon = useMemo(() => leaflet.icon(getIconOptions(UrlMarker.Current)), []);
   const activePlaceCardId = useAppSelector(selectActiveCardId);
 
   useEffect(() => {
@@ -46,7 +45,7 @@ export default function Map({ cityPlaceCards, currentOfferCard, mapType }: TMapP
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, activePlaceCardId, currentOfferCard, cityPlaceCards]);
+  }, [map, activePlaceCardId, currentOfferCard, cityPlaceCards, currentIcon, defaultIcon]);
 
   return (
     <section
@@ -55,3 +54,6 @@ export default function Map({ cityPlaceCards, currentOfferCard, mapType }: TMapP
     >
     </section>);
 }
+
+const MemoizedMap = memo(Map);
+export default MemoizedMap;

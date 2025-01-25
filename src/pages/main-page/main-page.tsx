@@ -27,7 +27,7 @@ export default function MainPage(): JSX.Element {
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <PlacesTabs activeCity={activeCity}/>
+        <PlacesTabs />
 
         <div className="cities">
           <div className={cx('cities__places-container', 'container', !hasPlaces && 'cities__places-container--empty')}>

@@ -3,6 +3,7 @@ import { NameSpace } from '../../utils/consts';
 import { TReviewsState } from '../../types/state';
 import { fetchReviewsAction, postCommentAction } from '../api-actions';
 import { TUserReview } from '../../types/user';
+import { toast } from 'react-toastify';
 
 const initialState: TReviewsState = {
   reviews: [],
@@ -29,6 +30,7 @@ export const reviewsSlice = createSlice({
       .addCase(fetchReviewsAction.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
+        toast.error('Failed to get reviews');
       })
       .addCase(postCommentAction.pending, (state) => {
         state.isSubmitComment = true;
@@ -41,6 +43,7 @@ export const reviewsSlice = createSlice({
       .addCase(postCommentAction.rejected, (state) => {
         state.isSubmitComment = false;
         state.hasSubmitCommentError = true;
+        toast.error('Something went wrong when trying to submit your review');
       });
   }
 });

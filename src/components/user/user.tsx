@@ -4,13 +4,14 @@ import { AppRoute, AuthorizationStatus } from '../../utils/consts';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectUserData } from '../../store/user/user.selectors';
 import { selectFavorites } from '../../store/favorites/favorites.selectors';
+import { memo } from 'react';
 
 type TUserProps = {
-  authStatus: TTypeAs<typeof AuthorizationStatus>;
+  authorizationStatus: TTypeAs<typeof AuthorizationStatus>;
 }
 
-export default function User({ authStatus }: TUserProps): JSX.Element {
-  const link = authStatus === AuthorizationStatus.Auth ? AppRoute.Favorites : AppRoute.Login;
+function User({ authorizationStatus }: TUserProps): JSX.Element {
+  const link = authorizationStatus === AuthorizationStatus.Auth ? AppRoute.Favorites : AppRoute.Login;
   const favoritesCard = useAppSelector(selectFavorites);
   const userData = useAppSelector(selectUserData);
 
@@ -20,7 +21,7 @@ export default function User({ authStatus }: TUserProps): JSX.Element {
         <div className="header__avatar-wrapper user__avatar-wrapper">
         </div>
         {
-          authStatus === AuthorizationStatus.Auth && userData
+          authorizationStatus === AuthorizationStatus.Auth && userData
             ?
             <>
               <span className="header__user-name user__name">{userData.email}</span>
@@ -32,3 +33,6 @@ export default function User({ authStatus }: TUserProps): JSX.Element {
     </li>
   );
 }
+
+const MemoizedUser = memo(User);
+export default MemoizedUser;

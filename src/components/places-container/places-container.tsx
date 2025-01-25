@@ -14,7 +14,7 @@ export default function PlacesContainer({ cityPlaceCards, activeCity, pageType }
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">{cityPlaceCards.length} places to stay in {activeCity}</b>
+      <b className="places__found">{cityPlaceCards.length} place{cityPlaceCards.length > 1 && 's'} to stay in {activeCity}</b>
 
       <PlacesSorting />
       <PlacesList pageType={pageType} />

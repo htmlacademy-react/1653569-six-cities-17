@@ -7,21 +7,36 @@ import LoginPage from '../pages/login-page/login-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../routes/private-route/private-route';
 import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
-import { AppRoute } from '../utils/consts';
+import { AppRoute, AuthorizationStatus } from '../utils/consts';
 import { useAppSelector } from '../hooks/use-app-selector';
 import Loading from '../components/spinner/spinner';
 import HistoryRouter from '../routes/history-route/history-route';
 import browserHistory from '../browser-history';
-import { selectAuthCheckedStatus, selectAuthorizationStatus } from '../store/user/user.selectors';
+import { selectAuthorizationCheckedStatus, selectAuthorizationStatus } from '../store/user/user.selectors';
 import { selectPlacesLoadingStatus } from '../store/places/places.selectors';
-
+import { useEffect } from 'react';
+import { checkAuthorizationAction, fetchFavoritesAction, fetchPlacesAction } from '../store/api-actions';
+import { useAppDispatch } from '../hooks/use-app-dispatch';
 
 export default function App(): JSX.Element {
-  const authStatus = useAppSelector(selectAuthorizationStatus);
-  const isAuthChecked = useAppSelector(selectAuthCheckedStatus);
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const isAuthorizationChecked = useAppSelector(selectAuthorizationCheckedStatus);
   const isPlacesLoading = useAppSelector(selectPlacesLoadingStatus);
 
-  if (!isAuthChecked || isPlacesLoading) {
+  useEffect(() => {
+    dispatch(checkAuthorizationAction());
+    dispatch(fetchPlacesAction());
+  }, [dispatch]
+  );
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritesAction());
+    }
+  }, [authorizationStatus, dispatch]);
+
+  if (!isAuthorizationChecked || isPlacesLoading) {
     return <Loading />;
   }
 
@@ -40,7 +55,7 @@ export default function App(): JSX.Element {
             path={AppRoute.Login}
             element={
               <LoginPage
-                authStatus={authStatus}
+                authorizationStatus={authorizationStatus}
               />
             }
           />
@@ -48,7 +63,7 @@ export default function App(): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authStatus={authStatus}
+                authorizationStatus={authorizationStatus}
               >
                 <FavoritesPage />
               </PrivateRoute>

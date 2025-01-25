@@ -3,6 +3,7 @@ import { City, NameSpace, SortOption } from '../../utils/consts';
 import { TPlacesState } from '../../types/state';
 import { TTypeAs } from '../../types/helper';
 import { fetchPlacesAction } from '../api-actions';
+import { toast } from 'react-toastify';
 
 const initialState: TPlacesState = {
   activeCity: City.Paris,
@@ -25,6 +26,12 @@ export const placesSlice = createSlice({
     },
     changeCardId: (state, action: PayloadAction<string | null>) => {
       state.activeCardId = action.payload;
+    },
+    updatePlaceCard (state, action: PayloadAction<string>) {
+      const index = state.placeCards.findIndex((card) => card.id === action.payload);
+      if (index !== -1) {
+        state.placeCards[index].isFavorite = !state.placeCards[index].isFavorite;
+      }
     }
   },
   extraReducers(builder) {
@@ -40,8 +47,9 @@ export const placesSlice = createSlice({
       .addCase(fetchPlacesAction.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
+        toast.error('Server error. Receiving offers is temporarily unavailable');
       });
   }
 });
 
-export const { changeCity, changeSorting, changeCardId } = placesSlice.actions;
+export const { changeCity, changeSorting, changeCardId, updatePlaceCard } = placesSlice.actions;
