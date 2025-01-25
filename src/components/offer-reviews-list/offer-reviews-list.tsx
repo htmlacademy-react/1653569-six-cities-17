@@ -1,21 +1,17 @@
 import Rating from '../rating/rating';
-import { Comment, RatingType } from '../../utils/consts';
+import { RatingType } from '../../utils/consts';
 import { convertDate } from '../../utils/helpers';
 import { TUserReview } from '../../types/user';
 
 type TOfferReviewsListProps = {
-  reviews: TUserReview[];
+  reviewsSorted: TUserReview[];
 }
 
-export default function OfferReviewsList({ reviews }: TOfferReviewsListProps): JSX.Element {
-  const reviewsSorted = reviews
-    .slice(Comment.MinCount, Comment.MaxCount)
-    .toSorted((reviewA, reviewB) => Date.parse(reviewB.date) - Date.parse(reviewA.date));
-
+export default function OfferReviewsList({ reviewsSorted }: TOfferReviewsListProps): JSX.Element {
   return (
     <ul className="reviews__list">
       {
-        reviewsSorted.slice(Comment.MinCount, Comment.MaxCount).map(({ id, user, rating, comment, date }) => (
+        reviewsSorted.map(({ id, user, rating, comment, date }) => (
           <li className="reviews__item" key={id}>
             <div className="reviews__user user">
               <div className="reviews__avatar-wrapper user__avatar-wrapper">

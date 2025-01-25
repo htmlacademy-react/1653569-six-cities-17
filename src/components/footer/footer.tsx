@@ -1,7 +1,7 @@
 import cx from 'classix';
 import Logo from '../logo/logo';
-import { getLogoStyles } from '../../utils/helpers';
-import { LogoType } from '../../utils/consts';
+import { getStyles } from '../../utils/helpers';
+import {LOGO_STYLES, LogoType} from '../../utils/consts';
 import { TTypeAs } from '../../types/helper';
 
 type TFooterProps = {
@@ -12,7 +12,7 @@ type TFooterProps = {
 export default function Footer({ isContainer, logoType }: TFooterProps): JSX.Element {
   return (
     <footer className={cx('footer', isContainer && 'container')}>
-      <Logo {...getLogoStyles(logoType)}/>
+      <Logo {...getStyles(logoType, LOGO_STYLES)}/>
     </footer>
   );
 }

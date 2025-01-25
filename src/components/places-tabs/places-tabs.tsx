@@ -2,8 +2,9 @@ import cx from 'classix';
 import { Link } from 'react-router-dom';
 import { City } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/places/places.slice';
 import { TTypeAs } from '../../types/helper';
+import { FC, memo } from 'react';
 
 type TPlacesTabsProps = {
   activeCity: TTypeAs<typeof City>;
@@ -34,3 +35,5 @@ export default function PlacesTabs({ activeCity }: TPlacesTabsProps): JSX.Elemen
     </div>
   );
 }
+
+export const MemoizedPlacesTabs = memo(PlacesTabs) as FC<TPlacesTabsProps>;

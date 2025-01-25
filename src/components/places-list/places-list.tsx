@@ -1,31 +1,28 @@
-import PlaceCard from '../place-card/place-card';
-import { MarkType, PageType } from '../../utils/consts';
-import { getPlaceCardStyles, sortingCityPlaceCards } from '../../utils/helpers';
-import { TPlaceCard} from '../../types/place-card';
+import { CARD_STYLES, MarkType, PageType } from '../../utils/consts';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { TTypeAs } from '../../types/helper';
+import { selectSortedPlaces } from '../../store/places/places.selectors';
+import PlaceCard from '../place-card/place-card';
+import { getStyles } from '../../utils/helpers';
 
 type TPlacesListProp = {
-  cityPlaceCards: TPlaceCard[];
-  onActivePlaceCardId: (id: string | null) => void;
+  pageType: TTypeAs<typeof PageType>;
 }
 
-export default function PlacesList({ cityPlaceCards, onActivePlaceCardId }: TPlacesListProp): JSX.Element {
-  const activeSort = useAppSelector((state) => state.activeSort);
-  const sortedPlaceCards = sortingCityPlaceCards(cityPlaceCards, activeSort);
+export default function PlacesList({ pageType }: TPlacesListProp): JSX.Element {
+  const sortedPlaceCards = useAppSelector(selectSortedPlaces);
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {
-        sortedPlaceCards.map((place) => (
-          <PlaceCard
-            key={place.id}
-            place={place}
-            markType={MarkType.Small}
-            onActivePlaceCardId={onActivePlaceCardId}
-            {...getPlaceCardStyles(PageType.Main)}
-          />
-        ))
-      }
+      {sortedPlaceCards.map((place) => (
+        <PlaceCard
+          key={place.id}
+          place={place}
+          markType={MarkType.Small}
+          pageType={pageType}
+          {...getStyles(pageType, CARD_STYLES)}
+        />
+      ))}
     </div>
   );
 }

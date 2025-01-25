@@ -1,17 +1,24 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
-import { MapSetting } from '../utils/consts';
-import { TPlaceCard } from '../types/place-card';
 import leaflet from 'leaflet';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MapSetting, MapType } from '../utils/consts';
+import { TLocation } from '../types/offer-card';
+import { TTypeAs } from '../types/helper';
 
-export default function useMap(mapRef: MutableRefObject<HTMLElement | null>, { city }: TPlaceCard): leaflet.Map | null {
+export default function useMap(
+  mapRef: MutableRefObject<HTMLElement | null>,
+  { longitude, latitude, zoom }: TLocation,
+  mapType: TTypeAs<typeof MapType>
+): leaflet.Map | null {
+
   const [ map, setMap ] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
+  const hasScroll = mapType === MapType.Main;
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet
-        .map(mapRef.current)
-        .setView([city.location.latitude, city.location.longitude], city.location.zoom);
+        .map(mapRef.current, {scrollWheelZoom: hasScroll})
+        .setView([latitude, longitude], zoom);
 
       leaflet
         .tileLayer(MapSetting.Map, {attribution: MapSetting.Links})
@@ -20,13 +27,13 @@ export default function useMap(mapRef: MutableRefObject<HTMLElement | null>, { c
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [city, mapRef]);
+  }, [hasScroll, latitude, longitude, mapRef, zoom]);
 
   useEffect(() => {
     if (map) {
-      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+      map.setView([latitude, longitude], zoom);
     }
-  }, [city.location.latitude, city.location.longitude, city.location.zoom, map]);
+  }, [latitude, longitude, zoom, map]);
 
   return map;
 }

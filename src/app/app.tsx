@@ -7,20 +7,22 @@ import LoginPage from '../pages/login-page/login-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../routes/private-route/private-route';
 import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
-import { AppRoute, AuthStatus } from '../utils/consts';
+import { AppRoute } from '../utils/consts';
 import { useAppSelector } from '../hooks/use-app-selector';
 import Loading from '../components/spinner/spinner';
 import HistoryRouter from '../routes/history-route/history-route';
 import browserHistory from '../browser-history';
+import { selectAuthCheckedStatus, selectAuthorizationStatus } from '../store/user/user.selectors';
+import { selectPlacesLoadingStatus } from '../store/places/places.selectors';
+
 
 export default function App(): JSX.Element {
-  const authStatus = useAppSelector((state) => state.authStatus);
-  const isLoading = useAppSelector((state) => state.isPlaceCardsLoading);
+  const authStatus = useAppSelector(selectAuthorizationStatus);
+  const isAuthChecked = useAppSelector(selectAuthCheckedStatus);
+  const isPlacesLoading = useAppSelector(selectPlacesLoadingStatus);
 
-  if (authStatus === AuthStatus.Unknown || isLoading) {
-    return (
-      <Loading />
-    );
+  if (!isAuthChecked || isPlacesLoading) {
+    return <Loading />;
   }
 
   return (

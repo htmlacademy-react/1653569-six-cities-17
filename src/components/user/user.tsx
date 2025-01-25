@@ -1,16 +1,18 @@
 import { Link } from 'react-router-dom';
 import { TTypeAs } from '../../types/helper';
-import { AppRoute, AuthStatus } from '../../utils/consts';
+import { AppRoute, AuthorizationStatus } from '../../utils/consts';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectUserData } from '../../store/user/user.selectors';
+import { selectFavorites } from '../../store/favorites/favorites.selectors';
 
 type TUserProps = {
-  authStatus: TTypeAs<typeof AuthStatus>;
+  authStatus: TTypeAs<typeof AuthorizationStatus>;
 }
 
 export default function User({ authStatus }: TUserProps): JSX.Element {
-  const link = authStatus === AuthStatus.Auth ? AppRoute.Favorites : AppRoute.Login;
-  const favoritesCard = useAppSelector((state) => state.placeFavorites);
-  const userData = useAppSelector((state) => state.userData);
+  const link = authStatus === AuthorizationStatus.Auth ? AppRoute.Favorites : AppRoute.Login;
+  const favoritesCard = useAppSelector(selectFavorites);
+  const userData = useAppSelector(selectUserData);
 
   return (
     <li className="header__nav-item user">
@@ -18,7 +20,7 @@ export default function User({ authStatus }: TUserProps): JSX.Element {
         <div className="header__avatar-wrapper user__avatar-wrapper">
         </div>
         {
-          authStatus === AuthStatus.Auth && userData
+          authStatus === AuthorizationStatus.Auth && userData
             ?
             <>
               <span className="header__user-name user__name">{userData.email}</span>

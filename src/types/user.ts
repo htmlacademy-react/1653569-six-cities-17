@@ -1,12 +1,15 @@
-export type TUserData = {
+export type TUser ={
   name: string;
   avatarUrl: string;
   isPro: boolean;
+}
+
+export type TUserData = TUser & {
   email: string;
   token: string;
 };
 
-export type TAuthData = {
+export type TUserAuth = {
   email: string;
   password: string;
 }
@@ -21,5 +24,3 @@ export type TUserReview = TUserComment & {
   date: string;
   user: TUser;
 };
-
-export type TUser = Omit<TUserData, 'email' | 'token'>

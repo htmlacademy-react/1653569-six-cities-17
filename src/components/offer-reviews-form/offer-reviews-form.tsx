@@ -1,9 +1,11 @@
-import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from 'react';
 import { Comment, Rating, RATINGS } from '../../utils/consts';
 import { TUserComment } from '../../types/user';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { fetchPlaceOfferCommentAction } from '../../store/api-actions';
+import { postCommentAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { selectOffer } from '../../store/offer/offer.selectors';
+import { selectSubmitCommentStatus, selectSubmitErrorStatus } from '../../store/reviews/reviews.selectors';
 
 const initFormData: TUserComment = {
   rating: Rating.InitState,
@@ -12,9 +14,21 @@ const initFormData: TUserComment = {
 
 export default function OfferReviewsForm(): JSX.Element {
   const [formData, setFormData] = useState(initFormData);
-  const offer = useAppSelector((state) => state.placeOffer);
-  const isFormDisabled = useAppSelector((state) => state.isFormDisabled);
+  const [checkedRating, setCheckedRating] = useState({isChecked: ''});
+  const [isFormDisabled, setFormDisabled] = useState<boolean>(false);
+  const isFormSending = useAppSelector(selectSubmitCommentStatus);
+  const hasSubmitError = useAppSelector(selectSubmitErrorStatus);
+  const offer = useAppSelector(selectOffer);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setFormDisabled(isFormSending);
+
+    if (!isFormSending && !hasSubmitError) {
+      setFormData(initFormData);
+      setCheckedRating({isChecked: ''});
+    }
+  }, [hasSubmitError, isFormSending]);
 
   const hasFormValidate = formData.rating > Rating.InitState
     && formData.comment.length >= Comment.MinLength
@@ -37,14 +51,10 @@ export default function OfferReviewsForm(): JSX.Element {
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (offer) {
-      dispatch(fetchPlaceOfferCommentAction({
+      dispatch(postCommentAction({
         id: offer.id,
         data: formData,
-      })).then((response) => {
-        if (response.meta.requestStatus === 'fulfilled') {
-          setFormData(initFormData);
-        }
-      });
+      }));
     }
   };
 
@@ -67,6 +77,8 @@ export default function OfferReviewsForm(): JSX.Element {
                 id={`${value}-stars`}
                 type="radio"
                 onChange={handleRatingChange}
+                onClick={() => setCheckedRating({isChecked: title})}
+                checked={checkedRating.isChecked === title}
                 disabled={isFormDisabled}
               />
               <label

@@ -3,13 +3,14 @@ import { SortOption } from '../../utils/consts';
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { changeSorting } from '../../store/action';
+import { changeSorting } from '../../store/places/places.slice';
+import { selectActiveSort } from '../../store/places/places.selectors';
 
 export default function PlacesSorting(): JSX.Element {
   const [isSortingOpened, setSortingOpened] = useState<boolean>(false);
   const sortRef = useRef<HTMLElement>(null);
+  const activeSort = useAppSelector(selectActiveSort);
   const dispatch = useAppDispatch();
-  const activeSort = useAppSelector((state) => state.activeSort);
 
   useEffect(() => {
     const closedSorting = (evt: MouseEvent) => {

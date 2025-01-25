@@ -1,13 +1,14 @@
 import User from '../user/user';
 import Logo from '../logo/logo';
-import { AuthStatus, LogoType, PageType } from '../../utils/consts';
-import { getLogoStyles } from '../../utils/helpers';
+import {AuthorizationStatus, LOGO_STYLES, LogoType, PageType} from '../../utils/consts';
+import { getStyles } from '../../utils/helpers';
 import { TPlaceCard } from '../../types/place-card';
 import { TTypeAs } from '../../types/helper';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { logoutAction } from '../../store/api-actions';
+import { selectAuthorizationStatus } from '../../store/user/user.selectors';
 
 type THeaderProps = {
   placeFavorites?: TPlaceCard[];
@@ -18,7 +19,7 @@ type THeaderProps = {
 
 export default function Header({ pageType, logoType, isAuth = true }: THeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const authStatus = useAppSelector(selectAuthorizationStatus);
 
   return (
     <header className="header">
@@ -28,7 +29,7 @@ export default function Header({ pageType, logoType, isAuth = true }: THeaderPro
 
             <Logo
               pageType={pageType}
-              {...getLogoStyles(logoType)}
+              {...getStyles(logoType, LOGO_STYLES)}
             />
           </div>
 
@@ -40,7 +41,7 @@ export default function Header({ pageType, logoType, isAuth = true }: THeaderPro
                 <User authStatus={authStatus} />
 
                 {
-                  authStatus === AuthStatus.Auth &&
+                  authStatus === AuthorizationStatus.Auth &&
                     <li className="header__nav-item">
                       <Link
                         className="header__nav-link"

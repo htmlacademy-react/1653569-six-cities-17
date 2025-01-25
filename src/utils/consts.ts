@@ -12,9 +12,9 @@ export const City = {
 } as const;
 
 export const PageType = {
-  Main: 'main',
-  Offer: 'offer',
+  Main: 'cities',
   Favorites: 'favorites',
+  Offer: 'near-places',
 } as const;
 
 export const LogoType = {
@@ -23,8 +23,8 @@ export const LogoType = {
 } as const;
 
 export const MarkType = {
-  Small: 'small',
-  Medium: 'medium',
+  Small: 'place-card',
+  Medium: 'offer',
 } as const;
 
 export const MapType = {
@@ -53,18 +53,27 @@ export const AppRoute = {
 } as const;
 
 export const APIRoute = {
-  Main: '/',
   Offers: '/offers',
   Nearby: '/nearby',
+  Favorites: '/favorites',
   Login: '/login',
   Logout: '/logout',
   Comments: '/comments'
 } as const;
 
-export const AuthStatus = {
+export const AuthorizationStatus = {
   Auth: 'AUTH',
   NoAuth: 'NO_AUTH',
   Unknown: 'UNKNOWN',
+} as const;
+
+export const NameSpace = {
+  Places: 'places',
+  Offer: 'offer',
+  Favorites: 'favorites',
+  Reviews: 'reviews',
+  Nearby: 'nearby',
+  User: 'user',
 } as const;
 
 export const Comment = {
@@ -115,30 +124,15 @@ export const MARK_STYLES = {
   height: [19, 33],
 };
 
-export const ICON_STYLES = {
+export const ICON_OPTIONS = {
   iconSize: [40, 40],
   iconAnchor: [20, 40],
-};
+} as const;
 
 export const RATINGS = [
-  {
-    value: 5,
-    title: 'perfect',
-  },
-  {
-    value: 4,
-    title: 'good',
-  },
-  {
-    value: 3,
-    title: 'not bad',
-  },
-  {
-    value: 2,
-    title: 'badly',
-  },
-  {
-    value: 1,
-    title: 'terribly',
-  }
+  {value: 5, title: 'perfect'},
+  {value: 4, title: 'good'},
+  {value: 3, title: 'not bad'},
+  {value: 2, title: 'badly'},
+  {value: 1, title: 'terribly'},
 ];

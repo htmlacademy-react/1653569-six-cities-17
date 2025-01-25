@@ -5,22 +5,24 @@ import { MapType, UrlMarker } from '../../utils/consts';
 import { TTypeAs } from '../../types/helper';
 import { TPlaceCard } from '../../types/place-card';
 import { TOfferCard } from '../../types/offer-card';
-import { getIconStyles } from '../../utils/helpers';
+import { getIconOptions } from '../../utils/helpers';
 import 'leaflet/dist/leaflet.css';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectActiveCardId } from '../../store/places/places.selectors';
 
-const defaultIcon = leaflet.icon(getIconStyles(UrlMarker.Default));
-const currentIcon = leaflet.icon(getIconStyles(UrlMarker.Current));
+const defaultIcon = leaflet.icon(getIconOptions(UrlMarker.Default));
+const currentIcon = leaflet.icon(getIconOptions(UrlMarker.Current));
 
 type TMapProps = {
   cityPlaceCards: TPlaceCard[];
-  activePlaceCardId?: string | null;
   currentOfferCard?: TOfferCard;
   mapType: TTypeAs<typeof MapType>;
 }
 
-export default function Map({ cityPlaceCards, activePlaceCardId, currentOfferCard, mapType }: TMapProps): JSX.Element {
+export default function Map({ cityPlaceCards, currentOfferCard, mapType }: TMapProps): JSX.Element {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, cityPlaceCards[0]);
+  const map = useMap(mapRef, cityPlaceCards[0].city.location, mapType);
+  const activePlaceCardId = useAppSelector(selectActiveCardId);
 
   useEffect(() => {
     if (map) {
@@ -36,7 +38,7 @@ export default function Map({ cityPlaceCards, activePlaceCardId, currentOfferCar
               ? currentIcon
               : defaultIcon,
           })
-          .bindPopup(placeCard.title, {closeButton: false})
+          .bindPopup(placeCard.title, {closeButton: false, offset: [0, -15]})
           .addTo(markerLayer);
       });
 
