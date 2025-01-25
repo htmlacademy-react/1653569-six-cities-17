@@ -2,6 +2,7 @@ import cx from 'classix';
 import { Link } from 'react-router-dom';
 import { AppRoute, PageType } from '../../utils/consts';
 import { TTypeAs } from '../../types/helper';
+import { memo } from 'react';
 
 type TLogoProps = {
   className?: string;
@@ -10,9 +11,12 @@ type TLogoProps = {
   pageType?: TTypeAs<typeof PageType>;
 }
 
-export default function Logo({ pageType, className, width, height }: TLogoProps): JSX.Element {
+function Logo({ pageType, className, width, height }: TLogoProps): JSX.Element {
   return (
-    <Link className={cx(`${className}__logo-link`, pageType === PageType.Main && `${className}__logo-link--active`)} to={AppRoute.Main}>
+    <Link
+      className={cx(`${className}__logo-link`, pageType === PageType.Main && `${className}__logo-link--active`)}
+      to={AppRoute.Main}
+    >
       <img
         className={`${className}__logo`}
         width={width}
@@ -23,3 +27,6 @@ export default function Logo({ pageType, className, width, height }: TLogoProps)
     </Link>
   );
 }
+
+const MemoizedLogo = memo(Logo);
+export default MemoizedLogo;

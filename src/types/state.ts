@@ -36,7 +36,7 @@ export type TOfferState = {
 };
 
 export type TNearbyState = {
-  nearbyCards: TPlaceCard[] | null;
+  nearbyCards: TPlaceCard[];
   isLoading: boolean;
   hasError: boolean;
 };

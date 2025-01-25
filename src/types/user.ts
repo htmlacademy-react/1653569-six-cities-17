@@ -9,7 +9,7 @@ export type TUserData = TUser & {
   token: string;
 };
 
-export type TUserAuth = {
+export type TUserAuthorization = {
   email: string;
   password: string;
 }

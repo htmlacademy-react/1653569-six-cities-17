@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace, AuthorizationStatus } from '../../utils/consts';
 import { TUserState } from '../../types/state';
-import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
+import { checkAuthorizationAction, loginAction, logoutAction } from '../api-actions';
+import { toast } from 'react-toastify';
 
 const initialState: TUserState = {
   userData: null,
   authorizationStatus: AuthorizationStatus.Unknown,
-  // hasAuthError: false,
 };
 
 export const userSlice = createSlice({
@@ -15,11 +15,11 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(checkAuthAction.fulfilled, (state, action) => {
+      .addCase(checkAuthorizationAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.userData = action.payload;
       })
-      .addCase(checkAuthAction.rejected, (state) => {
+      .addCase(checkAuthorizationAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(loginAction.fulfilled, (state, action) => {
@@ -28,6 +28,7 @@ export const userSlice = createSlice({
       })
       .addCase(loginAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
+        toast.error('Failed to login');
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;

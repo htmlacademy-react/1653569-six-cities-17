@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace } from '../../utils/consts';
 import { TOfferState } from '../../types/state';
 import { fetchOfferAction } from '../api-actions';
+import { toast } from 'react-toastify';
 
 const initialState: TOfferState = {
   offerCard: null,
@@ -12,7 +13,13 @@ const initialState: TOfferState = {
 export const offerSlice = createSlice({
   name: NameSpace.Offer,
   initialState,
-  reducers: {},
+  reducers: {
+    updateOfferCard (state, action: PayloadAction<string | null>) {
+      if (state?.offerCard?.id === action.payload) {
+        state.offerCard.isFavorite = !state.offerCard.isFavorite;
+      }
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOfferAction.pending, (state) => {
@@ -26,6 +33,9 @@ export const offerSlice = createSlice({
       .addCase(fetchOfferAction.rejected, (state) => {
         state.isLoading = false;
         state.hasError = true;
+        toast.error('The selected offer is temporarily unavailable');
       });
   }
 });
+
+export const { updateOfferCard } = offerSlice.actions;

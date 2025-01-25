@@ -1,26 +1,41 @@
 import cx from 'classix';
+import { memo } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectAuthorizationStatus } from '../../store/user/user.selectors';
 import { AppRoute, AuthorizationStatus } from '../../utils/consts';
 import { redirectToRoute } from '../../store/action';
-import { FC, memo } from 'react';
+import { changeFavoritesAction } from '../../store/api-actions';
+import { TPlaceCard } from '../../types/place-card';
+import { TOfferCard } from '../../types/offer-card';
+import { updatePlaceCard } from '../../store/places/places.slice';
+import { updateNearbyCards } from '../../store/nearby/nearby.slice';
+import { updateOfferCard } from '../../store/offer/offer.slice';
 
 type TBookmarkProps = {
   className?: string;
   width?: number;
   height?: number;
+  offer: TPlaceCard | TOfferCard;
   isFavorite?: boolean;
 }
 
-export default function Bookmark({ className, width, height, isFavorite = false }: TBookmarkProps): JSX.Element {
+function Bookmark({ className, width, height, offer, isFavorite = false }: TBookmarkProps): JSX.Element {
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector(selectAuthorizationStatus);
 
   const handleFavoriteClick = () => {
-    if (authStatus === AuthorizationStatus.NoAuth) {
+    if (authorizationStatus === AuthorizationStatus.NoAuth) {
       dispatch(redirectToRoute(AppRoute.Login));
+      return;
     }
+
+    dispatch(changeFavoritesAction({ offer, isFavorite }))
+      .then(() => {
+        dispatch(updatePlaceCard(offer.id));
+        dispatch(updateNearbyCards(offer.id));
+        dispatch(updateOfferCard(offer.id));
+      });
   };
 
   return (
@@ -41,4 +56,5 @@ export default function Bookmark({ className, width, height, isFavorite = false 
   );
 }
 
-export const MemoizedBookmark = memo(Bookmark) as FC<TBookmarkProps>;
+const MemoizedBookmark = memo(Bookmark);
+export default MemoizedBookmark;

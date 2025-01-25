@@ -2,12 +2,13 @@ import Rating from '../rating/rating';
 import { RatingType } from '../../utils/consts';
 import { convertDate } from '../../utils/helpers';
 import { TUserReview } from '../../types/user';
+import { memo } from 'react';
 
 type TOfferReviewsListProps = {
   reviewsSorted: TUserReview[];
 }
 
-export default function OfferReviewsList({ reviewsSorted }: TOfferReviewsListProps): JSX.Element {
+function OfferReviewsList({ reviewsSorted }: TOfferReviewsListProps): JSX.Element {
   return (
     <ul className="reviews__list">
       {
@@ -39,3 +40,6 @@ export default function OfferReviewsList({ reviewsSorted }: TOfferReviewsListPro
     </ul>
   );
 }
+
+const MemoizedOfferReviewsList = memo(OfferReviewsList);
+export default MemoizedOfferReviewsList;

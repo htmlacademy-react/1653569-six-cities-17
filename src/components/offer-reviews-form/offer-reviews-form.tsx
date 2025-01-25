@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, memo, useEffect, useState } from 'react';
 import { Comment, Rating, RATINGS } from '../../utils/consts';
 import { TUserComment } from '../../types/user';
 import { useAppSelector } from '../../hooks/use-app-selector';
@@ -12,7 +12,7 @@ const initFormData: TUserComment = {
   comment: Comment.InitState,
 };
 
-export default function OfferReviewsForm(): JSX.Element {
+function OfferReviewsForm(): JSX.Element {
   const [formData, setFormData] = useState(initFormData);
   const [checkedRating, setCheckedRating] = useState({isChecked: ''});
   const [isFormDisabled, setFormDisabled] = useState<boolean>(false);
@@ -121,3 +121,6 @@ export default function OfferReviewsForm(): JSX.Element {
     </form>
   );
 }
+
+const MemoizedOfferReviewsForm = memo(OfferReviewsForm);
+export default MemoizedOfferReviewsForm;

@@ -7,8 +7,10 @@ import { TTypeAs } from '../../types/helper';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { logoutAction } from '../../store/api-actions';
+import { fetchPlacesAction, logoutAction } from '../../store/api-actions';
 import { selectAuthorizationStatus } from '../../store/user/user.selectors';
+import { resetFavorites } from '../../store/favorites/favorites.slice';
+import { memo, useMemo } from 'react';
 
 type THeaderProps = {
   placeFavorites?: TPlaceCard[];
@@ -17,9 +19,18 @@ type THeaderProps = {
   isAuth?: boolean;
 }
 
-export default function Header({ pageType, logoType, isAuth = true }: THeaderProps): JSX.Element {
+function Header({ pageType, logoType, isAuth = true }: THeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector(selectAuthorizationStatus);
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
+  const logoStyle = useMemo(() => getStyles(logoType, LOGO_STYLES), [logoType]);
+
+  const handleLogoutClick = () => {
+    dispatch(logoutAction())
+      .then(() => {
+        dispatch(resetFavorites());
+        dispatch(fetchPlacesAction());
+      });
+  };
 
   return (
     <header className="header">
@@ -29,7 +40,7 @@ export default function Header({ pageType, logoType, isAuth = true }: THeaderPro
 
             <Logo
               pageType={pageType}
-              {...getStyles(logoType, LOGO_STYLES)}
+              {...logoStyle}
             />
           </div>
 
@@ -38,17 +49,15 @@ export default function Header({ pageType, logoType, isAuth = true }: THeaderPro
             <nav className="header__nav">
               <ul className="header__nav-list">
 
-                <User authStatus={authStatus} />
+                <User authorizationStatus={authorizationStatus} />
 
                 {
-                  authStatus === AuthorizationStatus.Auth &&
+                  authorizationStatus === AuthorizationStatus.Auth &&
                     <li className="header__nav-item">
                       <Link
                         className="header__nav-link"
                         to="#"
-                        onClick={() => {
-                          dispatch(logoutAction());
-                        }}
+                        onClick={handleLogoutClick}
                       >
                         <span className="header__signout">Sign out</span>
                       </Link>
@@ -62,3 +71,6 @@ export default function Header({ pageType, logoType, isAuth = true }: THeaderPro
     </header>
   );
 }
+
+const MemoizedHeader = memo(Header);
+export default MemoizedHeader;

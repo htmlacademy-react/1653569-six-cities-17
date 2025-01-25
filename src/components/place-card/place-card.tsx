@@ -8,6 +8,7 @@ import { TPlaceCard } from '../../types/place-card';
 import { TTypeAs } from '../../types/helper';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { changeCardId } from '../../store/places/places.slice';
+import { memo, useMemo } from 'react';
 
 type TPlaceCardProps = {
   place: TPlaceCard;
@@ -18,9 +19,12 @@ type TPlaceCardProps = {
   height?: number;
 }
 
-export default function PlaceCard({ place, markType, pageType, className, width, height }: TPlaceCardProps): JSX.Element {
+function PlaceCard({ place, markType, pageType, className, width, height }: TPlaceCardProps): JSX.Element {
   const { id, title, type, price, isPremium, isFavorite, rating, previewImage } = place;
   const isMainPage = pageType === PageType.Main;
+  const markStyle = useMemo(() => getStyles(markType, MARK_STYLES), [markType]);
+  const cardName = useMemo(() => capitalizedFirstChar(title), [title]);
+  const cardType = useMemo(() => capitalizedFirstChar(type), [type]);
   const dispatch = useAppDispatch();
 
   return (
@@ -30,7 +34,7 @@ export default function PlaceCard({ place, markType, pageType, className, width,
       onMouseLeave={() => isMainPage ? dispatch(changeCardId(null)) : null}
     >
 
-      {isPremium && <PremiumMark {...getStyles(markType, MARK_STYLES)} />}
+      {isPremium && <PremiumMark {...markStyle} />}
 
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Offer}/${id}`}>
@@ -52,8 +56,9 @@ export default function PlaceCard({ place, markType, pageType, className, width,
           </div>
 
           <Bookmark
+            offer={place}
             isFavorite={isFavorite}
-            {...getStyles(markType, MARK_STYLES)}
+            {...markStyle}
           />
         </div>
 
@@ -63,10 +68,13 @@ export default function PlaceCard({ place, markType, pageType, className, width,
         />
 
         <h2 className="place-card__name">
-          <Link to={`${AppRoute.Offer}/${id}`}>{capitalizedFirstChar(title)}</Link>
+          <Link to={`${AppRoute.Offer}/${id}`}>{cardName}</Link>
         </h2>
-        <p className="place-card__type">{capitalizedFirstChar(type)}</p>
+        <p className="place-card__type">{cardType}</p>
       </div>
     </article>
   );
 }
+
+const MemoizedPlaceCard = memo(PlaceCard);
+export default MemoizedPlaceCard;

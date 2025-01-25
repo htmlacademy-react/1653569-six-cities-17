@@ -3,15 +3,21 @@ import { Link } from 'react-router-dom';
 import { City } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { changeCity } from '../../store/places/places.slice';
+import { memo, useCallback } from 'react';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectActiveCity } from '../../store/places/places.selectors';
 import { TTypeAs } from '../../types/helper';
-import { FC, memo } from 'react';
 
-type TPlacesTabsProps = {
-  activeCity: TTypeAs<typeof City>;
-}
-
-export default function PlacesTabs({ activeCity }: TPlacesTabsProps): JSX.Element {
+function PlacesTabs(): JSX.Element {
   const dispatch = useAppDispatch();
+  const activeCity = useAppSelector(selectActiveCity);
+
+  const handleCityClick = useCallback((evt: React.MouseEvent<HTMLElement>) => {
+    evt.preventDefault();
+    if (evt.currentTarget.textContent) {
+      dispatch(changeCity(evt.currentTarget.textContent as TTypeAs<typeof City>));
+    }
+  }, [dispatch]);
 
   return (
     <div className="tabs">
@@ -23,7 +29,7 @@ export default function PlacesTabs({ activeCity }: TPlacesTabsProps): JSX.Elemen
                 <Link
                   className={cx('locations__item-link', 'tabs__item', city === activeCity && 'tabs__item--active')}
                   to="#"
-                  onClick={() => dispatch(changeCity(city))}
+                  onClick={handleCityClick}
                 >
                   <span>{city}</span>
                 </Link>
@@ -36,4 +42,5 @@ export default function PlacesTabs({ activeCity }: TPlacesTabsProps): JSX.Elemen
   );
 }
 
-export const MemoizedPlacesTabs = memo(PlacesTabs) as FC<TPlacesTabsProps>;
+const MemoizedPlacesTabs = memo(PlacesTabs);
+export default MemoizedPlacesTabs;

@@ -24,7 +24,7 @@ export default function OfferPage(): JSX.Element {
 
   const offer = useAppSelector(selectOffer);
   const reviews = useAppSelector(selectReviews);
-  const offerNearbyPlaces = useAppSelector(selectNearby) ?? [];
+  const offerNearbyPlaces = useAppSelector(selectNearby);
 
   const isOfferLoading = useAppSelector(selectOfferLoadingStatus);
   const isNearbyLoading = useAppSelector(selectNearbyLoadingStatus);

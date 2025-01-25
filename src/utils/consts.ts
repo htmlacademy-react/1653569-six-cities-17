@@ -43,6 +43,11 @@ export const CardCount = {
   Max: 3,
 } as const;
 
+export const ImageCount = {
+  Min: 0,
+  Max: 6,
+} as const;
+
 export const AppRoute = {
   Main: '/',
   Login: '/login',
@@ -55,7 +60,7 @@ export const AppRoute = {
 export const APIRoute = {
   Offers: '/offers',
   Nearby: '/nearby',
-  Favorites: '/favorites',
+  Favorites: '/favorite',
   Login: '/login',
   Logout: '/logout',
   Comments: '/comments'
@@ -68,12 +73,17 @@ export const AuthorizationStatus = {
 } as const;
 
 export const NameSpace = {
-  Places: 'places',
-  Offer: 'offer',
-  Favorites: 'favorites',
-  Reviews: 'reviews',
-  Nearby: 'nearby',
-  User: 'user',
+  Places: 'PLACES',
+  Offer: 'OFFER',
+  Favorites: 'FAVORITES',
+  Reviews: 'REVIEWS',
+  Nearby: 'NEARBY',
+  User: 'USER',
+} as const;
+
+export const FavoriteStatus = {
+  Add: 1,
+  Remove: 0,
 } as const;
 
 export const Comment = {
