@@ -1,5 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { useEffect } from 'react';
+import HistoryRouter from '../routes/history-router/history-router';
+import browserHistory from '../browser-history';
 import MainPage from '../pages/main-page/main-page';
 import FavoritesPage from '../pages/favorites-page/favorites-page';
 import OfferPage from '../pages/offer-page/offer-page';
@@ -7,25 +10,22 @@ import LoginPage from '../pages/login-page/login-page';
 import NotFoundPage from '../pages/not-found-page/not-found-page';
 import PrivateRoute from '../routes/private-route/private-route';
 import ScrollToTop from '../components/scroll-to-top/scroll-to-top';
-import { AppRoute, AuthorizationStatus } from '../utils/consts';
-import { useAppSelector } from '../hooks/use-app-selector';
 import Loading from '../components/spinner/spinner';
-import HistoryRouter from '../routes/history-route/history-route';
-import browserHistory from '../browser-history';
-import { selectAuthorizationCheckedStatus, selectAuthorizationStatus } from '../store/user/user.selectors';
-import { selectPlacesLoadingStatus } from '../store/places/places.selectors';
-import { useEffect } from 'react';
-import { checkAuthorizationAction, fetchFavoritesAction, fetchPlacesAction } from '../store/api-actions';
+import { AppRoute, AuthorizationStatus } from '../utils/consts';
 import { useAppDispatch } from '../hooks/use-app-dispatch';
+import { useAppSelector } from '../hooks/use-app-selector';
+import { selectAuthCheckedStatus, selectAuthorizationStatus } from '../store/user/user.selectors';
+import { selectPlacesLoadingStatus } from '../store/places/places.selectors';
+import { checkAuthAction, fetchFavoritesAction, fetchPlacesAction } from '../store/api-actions';
 
 export default function App(): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
-  const isAuthorizationChecked = useAppSelector(selectAuthorizationCheckedStatus);
+  const isAuthorizationChecked = useAppSelector(selectAuthCheckedStatus);
   const isPlacesLoading = useAppSelector(selectPlacesLoadingStatus);
 
   useEffect(() => {
-    dispatch(checkAuthorizationAction());
+    dispatch(checkAuthAction());
     dispatch(fetchPlacesAction());
   }, [dispatch]
   );
@@ -33,6 +33,7 @@ export default function App(): JSX.Element {
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(fetchFavoritesAction());
+      dispatch(fetchPlacesAction());
     }
   }, [authorizationStatus, dispatch]);
 

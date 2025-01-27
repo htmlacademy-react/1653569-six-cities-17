@@ -1,10 +1,11 @@
+import cx from 'classix';
+import { memo, useMemo } from 'react';
 import Bookmark from '../bookmark/bookmark';
 import PremiumMark from '../premium-mark/premium-mark';
 import Rating from '../rating/rating';
 import { MARK_STYLES, MarkType, RatingType } from '../../utils/consts';
 import { capitalizedFirstChar, getStyles } from '../../utils/helpers';
 import { TOfferCard } from '../../types/offer-card';
-import { memo, useMemo } from 'react';
 
 type TOfferDescription = {
   offer: TOfferCard;
@@ -71,7 +72,7 @@ function OfferDescription({ offer }: TOfferDescription): JSX.Element {
         <h2 className="offer__host-title">Meet the host</h2>
 
         <div className="offer__host-user user">
-          <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+          <div className={cx('offer__avatar-wrapper', isPro && 'offer__avatar-wrapper--pro', 'user__avatar-wrapper')}>
             <img className="offer__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar" />
           </div>
           <span className="offer__user-name">

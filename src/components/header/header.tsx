@@ -1,16 +1,16 @@
+import { memo, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import User from '../user/user';
 import Logo from '../logo/logo';
-import {AuthorizationStatus, LOGO_STYLES, LogoType, PageType} from '../../utils/consts';
+import { AuthorizationStatus, LOGO_STYLES, LogoType, PageType } from '../../utils/consts';
 import { getStyles } from '../../utils/helpers';
-import { TPlaceCard } from '../../types/place-card';
-import { TTypeAs } from '../../types/helper';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchPlacesAction, logoutAction } from '../../store/api-actions';
 import { selectAuthorizationStatus } from '../../store/user/user.selectors';
 import { resetFavorites } from '../../store/favorites/favorites.slice';
-import { memo, useMemo } from 'react';
+import { TTypeAs } from '../../types/helper';
+import { TPlaceCard } from '../../types/place-card';
 
 type THeaderProps = {
   placeFavorites?: TPlaceCard[];

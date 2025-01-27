@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NameSpace } from '../../utils/consts';
-import { TNearbyState } from '../../types/state';
-import { fetchNearbyAction } from '../api-actions';
 import { toast } from 'react-toastify';
+import { NameSpace } from '../../utils/consts';
+import { fetchNearbyAction } from '../api-actions';
+import { TNearbyState } from '../../types/state';
 
 const initialState: TNearbyState = {
   nearbyCards: [],
@@ -14,6 +14,9 @@ export const nearbySlice = createSlice({
   name: NameSpace.Offer,
   initialState,
   reducers: {
+    resetNearbyCards : (state) => {
+      state.nearbyCards = [];
+    },
     updateNearbyCards (state, action: PayloadAction<string>) {
       const index = state.nearbyCards.findIndex((card) => card.id === action.payload);
       if (index !== -1) {
@@ -39,4 +42,4 @@ export const nearbySlice = createSlice({
   }
 });
 
-export const { updateNearbyCards } = nearbySlice.actions;
+export const { resetNearbyCards, updateNearbyCards } = nearbySlice.actions;

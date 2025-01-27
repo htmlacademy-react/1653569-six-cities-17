@@ -1,8 +1,8 @@
+import { memo } from 'react';
 import Rating from '../rating/rating';
 import { RatingType } from '../../utils/consts';
 import { convertDate } from '../../utils/helpers';
 import { TUserReview } from '../../types/user';
-import { memo } from 'react';
 
 type TOfferReviewsListProps = {
   reviewsSorted: TUserReview[];

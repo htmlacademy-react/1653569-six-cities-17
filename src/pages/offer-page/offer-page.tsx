@@ -7,43 +7,53 @@ import OfferDescription from '../../components/offer-description/offer-descripti
 import OfferReviews from '../../components/offer-reviews/offer-reviews';
 import OfferNearPlacesList from '../../components/offer-near-places-list/offer-near-places-list';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { LogoType, MapType, PageType } from '../../utils/consts';
 import Loading from '../../components/spinner/spinner';
+import { LogoType, MapType, PageType } from '../../utils/consts';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchOfferAction, fetchNearbyAction, fetchReviewsAction } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { changeCardId } from '../../store/places/places.slice';
-import { selectOffer, selectOfferLoadingStatus } from '../../store/offer/offer.selectors';
+import { selectOfferCard, selectOfferCardLoadingStatus } from '../../store/offer/offer.selectors';
 import { selectReviews, selectReviewsLoadingStatus } from '../../store/reviews/reviews.selectors';
-import { selectNearby, selectNearbyLoadingStatus } from '../../store/nearby/nearby.selectros';
+import { selectNearbyCards, selectNearbyLoadingStatus } from '../../store/nearby/nearby.selectros';
+import { resetOfferCard } from '../../store/offer/offer.slice';
+import { resetReviews } from '../../store/reviews/reviews.slice';
+import { resetNearbyCards } from '../../store/nearby/nearby.slice';
 
 export default function OfferPage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
 
-  const offer = useAppSelector(selectOffer);
+  const offer = useAppSelector(selectOfferCard);
   const reviews = useAppSelector(selectReviews);
-  const offerNearbyPlaces = useAppSelector(selectNearby);
-
-  const isOfferLoading = useAppSelector(selectOfferLoadingStatus);
-  const isNearbyLoading = useAppSelector(selectNearbyLoadingStatus);
+  const offerNearbyCards = useAppSelector(selectNearbyCards);
+  const isOfferCardLoading = useAppSelector(selectOfferCardLoadingStatus);
+  const isNearbyCardLoading = useAppSelector(selectNearbyLoadingStatus);
   const isReviewsLoading = useAppSelector(selectReviewsLoadingStatus);
 
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferAction(id));
-      dispatch(fetchNearbyAction(id));
-      dispatch(fetchReviewsAction(id));
+      dispatch(fetchNearbyAction(id))
+        .then((res) => {
+          if (res.meta.requestStatus === 'fulfilled') {
+            dispatch(fetchReviewsAction(id));
+          }
+        }
+        );
     }
 
     return () => {
       dispatch(changeCardId(null));
+      dispatch(resetOfferCard());
+      dispatch(resetReviews());
+      dispatch(resetNearbyCards());
     };
   }, [id, dispatch]
   );
 
-  if (isOfferLoading || isNearbyLoading || isReviewsLoading) {
+  if (isOfferCardLoading || isNearbyCardLoading || isReviewsLoading) {
     return <Loading />;
   }
 
@@ -74,7 +84,7 @@ export default function OfferPage(): JSX.Element {
           </div>
 
           <Map
-            cityPlaceCards={offerNearbyPlaces}
+            cityPlaceCards={offerNearbyCards}
             currentOfferCard={offer}
             mapType={MapType.Offer}
           />
@@ -82,7 +92,7 @@ export default function OfferPage(): JSX.Element {
 
         <div className="container">
           <OfferNearPlacesList
-            offerNearbyPlaces={offerNearbyPlaces}
+            offerNearbyCards={offerNearbyCards}
             pageType={PageType.Offer}
           />
         </div>

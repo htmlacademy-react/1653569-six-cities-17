@@ -1,5 +1,5 @@
-import { TTypeAs } from '../../types/helper';
 import { City } from '../../utils/consts';
+import { TTypeAs } from '../../types/helper';
 
 type TPlacesEmpty = {
   activeCity: TTypeAs<typeof City>;

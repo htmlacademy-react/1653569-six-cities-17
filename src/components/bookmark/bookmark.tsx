@@ -1,16 +1,16 @@
 import cx from 'classix';
 import { memo } from 'react';
+import { redirectToRoute } from '../../store/action';
+import { AppRoute, AuthorizationStatus } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectAuthorizationStatus } from '../../store/user/user.selectors';
-import { AppRoute, AuthorizationStatus } from '../../utils/consts';
-import { redirectToRoute } from '../../store/action';
 import { changeFavoritesAction } from '../../store/api-actions';
-import { TPlaceCard } from '../../types/place-card';
-import { TOfferCard } from '../../types/offer-card';
 import { updatePlaceCard } from '../../store/places/places.slice';
 import { updateNearbyCards } from '../../store/nearby/nearby.slice';
 import { updateOfferCard } from '../../store/offer/offer.slice';
+import { TOfferCard } from '../../types/offer-card';
+import { TPlaceCard } from '../../types/place-card';
 
 type TBookmarkProps = {
   className?: string;
@@ -30,11 +30,13 @@ function Bookmark({ className, width, height, offer, isFavorite = false }: TBook
       return;
     }
 
-    dispatch(changeFavoritesAction({ offer, isFavorite }))
-      .then(() => {
-        dispatch(updatePlaceCard(offer.id));
-        dispatch(updateNearbyCards(offer.id));
-        dispatch(updateOfferCard(offer.id));
+    dispatch(changeFavoritesAction({ offerId: offer.id, status: isFavorite ? 0 : 1 }))
+      .then((response) => {
+        if (response.meta.requestStatus === 'fulfilled') {
+          dispatch(updatePlaceCard(offer.id));
+          dispatch(updateNearbyCards(offer.id));
+          dispatch(updateOfferCard(offer.id));
+        }
       });
   };
 

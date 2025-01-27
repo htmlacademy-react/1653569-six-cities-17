@@ -1,16 +1,16 @@
+import { memo, useMemo } from 'react';
 import PlaceCard from '../place-card/place-card';
 import {CARD_STYLES, MarkType, PageType} from '../../utils/consts';
 import { getStyles } from '../../utils/helpers';
 import { TPlaceCard } from '../../types/place-card';
 import { TTypeAs } from '../../types/helper';
-import { memo, useMemo } from 'react';
 
 type TOfferNearbyPlacesList = {
-  offerNearbyPlaces: TPlaceCard[] | [];
+  offerNearbyCards: TPlaceCard[] | [];
   pageType: TTypeAs<typeof PageType>;
 }
 
-function OfferNearbyPlacesList({ offerNearbyPlaces, pageType }: TOfferNearbyPlacesList): JSX.Element {
+function OfferNearbyPlacesList({ offerNearbyCards, pageType }: TOfferNearbyPlacesList): JSX.Element {
   const placeCardStyle = useMemo(() => getStyles(pageType, CARD_STYLES), [pageType]);
 
   return (
@@ -18,7 +18,7 @@ function OfferNearbyPlacesList({ offerNearbyPlaces, pageType }: TOfferNearbyPlac
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
         {
-          offerNearbyPlaces.map((place) => (
+          offerNearbyCards.map((place) => (
             <PlaceCard
               key={place.id}
               place={place}

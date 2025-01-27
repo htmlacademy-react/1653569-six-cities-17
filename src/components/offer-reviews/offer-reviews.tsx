@@ -1,11 +1,11 @@
+import { memo } from 'react';
 import OfferReviewsList from '../../components/offer-reviews-list/offer-reviews-list';
 import OfferReviewsForm from '../../components/offer-reviews-form/offer-reviews-form';
-import { memo } from 'react';
 import { AuthorizationStatus } from '../../utils/consts';
-import { TUserReview } from '../../types/user';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectAuthorizationStatus } from '../../store/user/user.selectors';
 import { selectReviewsSorted } from '../../store/reviews/reviews.selectors';
+import { TUserReview } from '../../types/user';
 
 type TOfferReviewsProps = {
   reviews: TUserReview[];

@@ -2,12 +2,12 @@ import leaflet, { layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
 import { memo, useEffect, useMemo, useRef } from 'react';
 import { MapType, UrlMarker } from '../../utils/consts';
-import { TTypeAs } from '../../types/helper';
-import { TPlaceCard } from '../../types/place-card';
 import { TOfferCard } from '../../types/offer-card';
 import { getIconOptions } from '../../utils/helpers';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectActiveCardId } from '../../store/places/places.selectors';
+import { TTypeAs } from '../../types/helper';
+import { TPlaceCard } from '../../types/place-card';
 import 'leaflet/dist/leaflet.css';
 
 type TMapProps = {

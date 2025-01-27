@@ -1,5 +1,5 @@
-import { Helmet } from 'react-helmet-async';
 import cx from 'classix';
+import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header';
 import PlacesTabs from '../../components/places-tabs/places-tabs';
 import PlacesContainer from '../../components/places-container/places-container';
