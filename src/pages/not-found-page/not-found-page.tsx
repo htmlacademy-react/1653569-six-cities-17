@@ -20,7 +20,7 @@ export default function NotFoundPage(): JSX.Element {
             <div className="favorites__status-wrapper">
               <b className="favorites__status">404</b>
               <b className="favorites__status">Page not found</b>
-              <p><Link to={AppRoute.Main}>Вернуться на главную</Link></p>
+              <p><Link to={AppRoute.Main}>Back to main page</Link></p>
             </div>
           </section>
         </div>

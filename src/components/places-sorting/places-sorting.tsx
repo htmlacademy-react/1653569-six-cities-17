@@ -1,6 +1,6 @@
 import cx from 'classix';
-import { SortOption } from '../../utils/consts';
 import { useEffect, useRef, useState } from 'react';
+import { SortOption } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { changeSorting } from '../../store/places/places.slice';

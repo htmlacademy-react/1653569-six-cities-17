@@ -1,12 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '../../types/state';
 import { NameSpace, Comment } from '../../utils/consts';
+import { TState } from '../../types/state';
 
-export const selectReviews = (state: RootState) => state[NameSpace.Reviews].reviews;
-export const selectReviewsLoadingStatus = (state: RootState) => state[NameSpace.Reviews].isLoading;
-export const selectReviewsErrorStatus = (state: RootState) => state[NameSpace.Reviews].hasError;
-export const selectSubmitCommentStatus = (state: RootState) => state[NameSpace.Reviews].isSubmitComment;
-export const selectSubmitErrorStatus = (state: RootState) => state[NameSpace.Reviews].hasSubmitCommentError;
+export const selectReviews = (state: TState) => state[NameSpace.Reviews].reviews;
+export const selectReviewsLoadingStatus = (state: TState) => state[NameSpace.Reviews].isLoading;
+export const selectReviewsErrorStatus = (state: TState) => state[NameSpace.Reviews].hasError;
+export const selectSubmitCommentStatus = (state: TState) => state[NameSpace.Reviews].isSubmitComment;
+export const selectSubmitErrorStatus = (state: TState) => state[NameSpace.Reviews].hasSubmitCommentError;
 
 export const selectReviewsSorted = createSelector(
   [selectReviews],

@@ -6,12 +6,12 @@ import { TPlaceCard } from './place-card';
 import { TUserData, TUserReview } from './user';
 import { TTypeAs } from './helper';
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type TState = ReturnType<typeof store.getState>;
+export type TAppDispatch = typeof store.dispatch;
 
 export type TAsyncThunk = {
-  dispatch: AppDispatch;
-  state: RootState;
+  dispatch: TAppDispatch;
+  state: TState;
   extra: AxiosInstance;
 }
 
@@ -53,4 +53,6 @@ export type TFavoritesState = {
   favoritesCards: TPlaceCard[];
   isLoading: boolean;
   hasError: boolean;
+  isLoadingChange : boolean;
+  hasErrorChange: boolean;
 }

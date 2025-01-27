@@ -4,19 +4,23 @@ import { Link, Navigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import { AppRoute, AuthorizationStatus, City, LogoType } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { fetchPlacesAction, loginAction } from '../../store/api-actions';
+import { loginAction } from '../../store/api-actions';
 import { changeCity } from '../../store/places/places.slice';
 import { TTypeAs } from '../../types/helper';
 
-type TAuthStatus = {
+type TAuthorizationStatus = {
   authorizationStatus: TTypeAs<typeof AuthorizationStatus>;
 }
 
-export default function LoginPage({ authorizationStatus }: TAuthStatus): JSX.Element {
+export default function LoginPage({ authorizationStatus }: TAuthorizationStatus): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const randomCity = Object.values(City)[Math.floor(Math.random() * Object.keys(City).length)];
   const dispatch = useAppDispatch();
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.Main} />;
+  }
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -25,15 +29,9 @@ export default function LoginPage({ authorizationStatus }: TAuthStatus): JSX.Ele
       dispatch(loginAction({
         email: emailRef.current.value,
         password: passwordRef.current.value
-      })).then(() => {
-        dispatch(fetchPlacesAction());
-      });
+      }));
     }
   };
-
-  if (authorizationStatus === AuthorizationStatus.Auth) {
-    return <Navigate to={AppRoute.Main} />;
-  }
 
   return (
     <div className="page page--gray page--login">

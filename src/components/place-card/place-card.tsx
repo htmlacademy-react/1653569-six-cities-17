@@ -1,14 +1,14 @@
+import { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Bookmark from '../bookmark/bookmark';
 import PremiumMark from '../premium-mark/premium-mark';
 import Rating from '../rating/rating';
 import { capitalizedFirstChar, getStyles } from '../../utils/helpers';
-import {AppRoute, MARK_STYLES, MarkType, PageType, RatingType} from '../../utils/consts';
-import { TPlaceCard } from '../../types/place-card';
-import { TTypeAs } from '../../types/helper';
+import { AppRoute, MARK_STYLES, MarkType, PageType, RatingType } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { changeCardId } from '../../store/places/places.slice';
-import { memo, useMemo } from 'react';
+import { TPlaceCard } from '../../types/place-card';
+import { TTypeAs } from '../../types/helper';
 
 type TPlaceCardProps = {
   place: TPlaceCard;

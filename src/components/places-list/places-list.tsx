@@ -1,10 +1,10 @@
+import { useMemo } from 'react';
+import PlaceCard from '../place-card/place-card';
 import { CARD_STYLES, MarkType, PageType } from '../../utils/consts';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { TTypeAs } from '../../types/helper';
 import { selectSortedPlaces } from '../../store/places/places.selectors';
-import PlaceCard from '../place-card/place-card';
 import { getStyles } from '../../utils/helpers';
-import { useMemo } from 'react';
+import { TTypeAs } from '../../types/helper';
 
 type TPlacesListProp = {
   pageType: TTypeAs<typeof PageType>;

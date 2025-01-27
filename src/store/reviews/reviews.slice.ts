@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import { fetchReviewsAction, postCommentAction } from '../api-actions';
 import { NameSpace } from '../../utils/consts';
 import { TReviewsState } from '../../types/state';
-import { fetchReviewsAction, postCommentAction } from '../api-actions';
 import { TUserReview } from '../../types/user';
-import { toast } from 'react-toastify';
 
 const initialState: TReviewsState = {
   reviews: [],
@@ -16,7 +16,11 @@ const initialState: TReviewsState = {
 export const reviewsSlice = createSlice({
   name: NameSpace.Reviews,
   initialState,
-  reducers: {},
+  reducers: {
+    resetReviews: (state) => {
+      state.reviews = [];
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchReviewsAction.pending, (state) => {
@@ -47,3 +51,5 @@ export const reviewsSlice = createSlice({
       });
   }
 });
+
+export const { resetReviews } = reviewsSlice.actions;

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import { fetchPlacesAction } from '../api-actions';
 import { City, NameSpace, SortOption } from '../../utils/consts';
 import { TPlacesState } from '../../types/state';
 import { TTypeAs } from '../../types/helper';
-import { fetchPlacesAction } from '../api-actions';
-import { toast } from 'react-toastify';
 
 const initialState: TPlacesState = {
   activeCity: City.Paris,

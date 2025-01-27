@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute, FavoriteStatus, NameSpace } from '../utils/consts';
 import { removeToken, setToken } from '../services/token';
+import { APIRoute, NameSpace } from '../utils/consts';
 import { TPlaceCard } from '../types/place-card';
 import { TUserAuthorization, TUserData } from '../types/user';
 import { TOfferCard } from '../types/offer-card';
@@ -9,7 +9,7 @@ import { TAsyncThunk } from '../types/state';
 
 const createAppAsyncThunk = createAsyncThunk.withTypes<TAsyncThunk>();
 
-export const checkAuthorizationAction = createAppAsyncThunk<TUserData, undefined>(
+export const checkAuthAction = createAppAsyncThunk<TUserData, undefined>(
   `${NameSpace.User}/checkAuth`,
   async (_arg, {extra: api}) => {
     const { data } = await api.get<TUserData>(APIRoute.Login);
@@ -82,14 +82,10 @@ export const fetchFavoritesAction = createAppAsyncThunk<TPlaceCard[], undefined>
   },
 );
 
-export const changeFavoritesAction = createAppAsyncThunk<{offer: TPlaceCard; status: number}, {offer: TPlaceCard | TOfferCard; isFavorite: boolean}>(
+export const changeFavoritesAction = createAppAsyncThunk<{offer: TPlaceCard; status: number}, {offerId: string; status: number}>(
   `${NameSpace.Favorites}/changeFavorites`,
-  async ({offer, isFavorite}, {extra: api}) => {
-    const status = isFavorite
-      ? FavoriteStatus.Remove
-      : FavoriteStatus.Add;
-
-    const { data } = await api.post<TPlaceCard>(`${APIRoute.Favorites}/${offer.id}/${status}`);
-    return {offer: data, status};
+  async ({offerId, status}, {extra: api}) => {
+    const { data } = await api.post<TPlaceCard>(`${APIRoute.Favorites}/${offerId}/${status}`);
+    return { offer: data, status };
   },
 );

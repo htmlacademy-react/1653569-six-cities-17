@@ -1,8 +1,8 @@
 import PlacesSorting from '../../components/places-sorting/places-sorting';
 import PlacesList from '../../components/places-list/places-list';
+import { City, PageType } from '../../utils/consts';
 import { TPlaceCard } from '../../types/place-card';
 import { TTypeAs } from '../../types/helper';
-import { City, PageType } from '../../utils/consts';
 
 type TPlacesContainerProps = {
   cityPlaceCards: TPlaceCard[];

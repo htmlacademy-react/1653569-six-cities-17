@@ -1,9 +1,9 @@
 import cx from 'classix';
+import { memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { City } from '../../utils/consts';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { changeCity } from '../../store/places/places.slice';
-import { memo, useCallback } from 'react';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectActiveCity } from '../../store/places/places.selectors';
 import { TTypeAs } from '../../types/helper';

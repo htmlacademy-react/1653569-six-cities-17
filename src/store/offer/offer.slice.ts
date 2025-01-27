@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import { fetchOfferAction } from '../api-actions';
 import { NameSpace } from '../../utils/consts';
 import { TOfferState } from '../../types/state';
-import { fetchOfferAction } from '../api-actions';
-import { toast } from 'react-toastify';
 
 const initialState: TOfferState = {
   offerCard: null,
@@ -14,6 +14,9 @@ export const offerSlice = createSlice({
   name: NameSpace.Offer,
   initialState,
   reducers: {
+    resetOfferCard: (state) => {
+      state.offerCard = null;
+    },
     updateOfferCard (state, action: PayloadAction<string | null>) {
       if (state?.offerCard?.id === action.payload) {
         state.offerCard.isFavorite = !state.offerCard.isFavorite;
@@ -38,4 +41,4 @@ export const offerSlice = createSlice({
   }
 });
 
-export const { updateOfferCard } = offerSlice.actions;
+export const { resetOfferCard, updateOfferCard } = offerSlice.actions;

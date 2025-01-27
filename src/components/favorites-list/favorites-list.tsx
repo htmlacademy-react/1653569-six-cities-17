@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import PlaceCard from '../../components/place-card/place-card';
-import { AppRoute, CARD_STYLES, City, MarkType, PageType} from '../../utils/consts';
-import { getStyles } from '../../utils/helpers';
-import { TPlaceCard } from '../../types/place-card';
-import { TTypeAs } from '../../types/helper';
 import { memo, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
+import { AppRoute, CARD_STYLES, City, MarkType, PageType} from '../../utils/consts';
+import PlaceCard from '../../components/place-card/place-card';
+import { getStyles } from '../../utils/helpers';
 import { changeCity } from '../../store/places/places.slice';
+import { TPlaceCard } from '../../types/place-card';
+import { TTypeAs } from '../../types/helper';
 
 type TFavoritesListProps = {
   places: Partial<Record<TTypeAs<typeof City>, TPlaceCard[]>>;

@@ -1,11 +1,11 @@
 import { ChangeEvent, FormEvent, Fragment, memo, useEffect, useState } from 'react';
 import { Comment, Rating, RATINGS } from '../../utils/consts';
-import { TUserComment } from '../../types/user';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { postCommentAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { selectOffer } from '../../store/offer/offer.selectors';
+import { selectOfferCard } from '../../store/offer/offer.selectors';
 import { selectSubmitCommentStatus, selectSubmitErrorStatus } from '../../store/reviews/reviews.selectors';
+import { TUserComment } from '../../types/user';
 
 const initFormData: TUserComment = {
   rating: Rating.InitState,
@@ -18,7 +18,7 @@ function OfferReviewsForm(): JSX.Element {
   const [isFormDisabled, setFormDisabled] = useState<boolean>(false);
   const isFormSending = useAppSelector(selectSubmitCommentStatus);
   const hasSubmitError = useAppSelector(selectSubmitErrorStatus);
-  const offer = useAppSelector(selectOffer);
+  const offer = useAppSelector(selectOfferCard);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

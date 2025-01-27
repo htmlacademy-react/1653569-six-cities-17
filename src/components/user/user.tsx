@@ -1,10 +1,10 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { TTypeAs } from '../../types/helper';
 import { AppRoute, AuthorizationStatus } from '../../utils/consts';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectUserData } from '../../store/user/user.selectors';
 import { selectFavorites } from '../../store/favorites/favorites.selectors';
-import { memo } from 'react';
+import { TTypeAs } from '../../types/helper';
 
 type TUserProps = {
   authorizationStatus: TTypeAs<typeof AuthorizationStatus>;

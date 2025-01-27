@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import { FavoriteStatus, NameSpace } from '../../utils/consts';
 import { changeFavoritesAction, fetchFavoritesAction } from '../api-actions';
 import { TFavoritesState } from '../../types/state';
-import { toast } from 'react-toastify';
 
 const initialState: TFavoritesState = {
   favoritesCards: [],
   isLoading : false,
   hasError: false,
+  isLoadingChange : false,
+  hasErrorChange: false,
 };
 
 export const favoritesSlice = createSlice({
@@ -34,11 +36,11 @@ export const favoritesSlice = createSlice({
         toast.error('Favorite offers are temporarily unavailable');
       })
       .addCase(changeFavoritesAction.pending, (state) => {
-        state.isLoading = true;
-        state.hasError = false;
+        state.isLoadingChange = true;
+        state.hasErrorChange = false;
       })
       .addCase(changeFavoritesAction.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingChange = false;
         switch (action.payload.status) {
           case FavoriteStatus.Add:
             state.favoritesCards.push(action.payload.offer);
@@ -49,8 +51,8 @@ export const favoritesSlice = createSlice({
         }
       })
       .addCase(changeFavoritesAction.rejected, (state) => {
-        state.isLoading = false;
-        state.hasError = true;
+        state.isLoadingChange = false;
+        state.hasErrorChange = true;
         toast.error('Failed to add to favorites');
       });
   }

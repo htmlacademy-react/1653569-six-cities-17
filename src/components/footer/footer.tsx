@@ -1,9 +1,9 @@
 import cx from 'classix';
+import { memo, useMemo } from 'react';
 import Logo from '../logo/logo';
 import { getStyles } from '../../utils/helpers';
-import {LOGO_STYLES, LogoType} from '../../utils/consts';
+import { LOGO_STYLES, LogoType } from '../../utils/consts';
 import { TTypeAs } from '../../types/helper';
-import { memo, useMemo } from 'react';
 
 type TFooterProps = {
   isContainer: boolean;
